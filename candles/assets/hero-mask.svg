@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="none">
+  <filter id="soft" x="-25%" y="-25%" width="150%" height="150%">
+    <feGaussianBlur stdDeviation="42"/>
+  </filter>
+  <g filter="url(#soft)" fill="#fff">
+    <path d="M 1320 -60 L 1320 760
+             C 1140 726, 990 700, 840 686
+             C 700 674, 620 690, 520 690
+             C 402 678, 318 612, 344 512
+             C 366 428, 250 372, 322 286
+             C 386 210, 560 230, 700 190
+             C 840 150, 910 96, 1030 92
+             C 1140 88, 1250 60, 1320 -60 Z"/>
+  </g>
+</svg>

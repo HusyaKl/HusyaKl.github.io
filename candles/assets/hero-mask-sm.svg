@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" preserveAspectRatio="none">
+  <filter id="softsm" x="-25%" y="-25%" width="150%" height="150%">
+    <feGaussianBlur stdDeviation="36"/>
+  </filter>
+  <g filter="url(#softsm)" fill="#fff">
+    <path d="M -30 300
+             C -10 190, 130 110, 320 105
+             C 510 100, 640 130, 800 140
+             C 920 148, 930 240, 895 300
+             C 930 360, 900 450, 760 470
+             C 600 490, 420 495, 260 480
+             C 120 468, 10 410, -30 300 Z"/>
+  </g>
+</svg>

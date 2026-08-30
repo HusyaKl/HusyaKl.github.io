@@ -1,0 +1,649 @@
+/* вспомни — свечи и духи. Ревизия 5 концепции: workspace/design/candles.md.
+   Формула: «страницу освещают фотографии, которые на ней лежат». */
+
+:root {
+  /* Палитра — снята пипеткой с присланных фотографий (см. концепцию, раздел «Палитра») */
+  --paper:   #F2E4CE;  /* Бумага — подложка карточки, весь текст на тёмном */
+  --sepia:   #2A1B10;  /* Сепия — текст на «Бумаге» */
+  --lace:    #DCC3A4;  /* Кружево — вторичный текст на тёмном */
+  --paper-mid: #6B563F; /* Полутон бумаги — вторичный текст на «Бумаге» */
+  --flame:   #F3A55A;  /* Пламя — свечение, активный фильтр, буква «о». Никогда текст на «Бумаге» */
+  --amber:   #8A3E10;  /* Янтарь — цена, кнопка «в корзину», фокус на светлом */
+  --wood:    #23180F;  /* Дерево — шапка при скролле, панель на тёмном */
+
+  --font-display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'Onest', 'Segoe UI', system-ui, sans-serif;
+
+  --header-h: 64px;
+  --pad: 16px;
+  /* ширина контентных секций (шапка героя, линейки, витрина, шаги, подвал).
+     На ширинах <=1440 остаётся ровно 1180px — так уже проверено и принято
+     (дизайн, тестер); выше 1440 раздвигается, чтобы на широких мониторах
+     (1920+) контент не сжимался в среднюю треть экрана с пустыми полями
+     по 370px с каждой стороны (дефект T-1, board 2026-08-30: manager 13:47,
+     tester D1 14:08). 78vw — та же доля, что и у выреза фотографии героя. */
+  --content: 1180px;
+
+  /* состояние витрины по умолчанию («стол») — переопределяется body[data-line] */
+  --bg: #17100A;
+  --tint: #F3A55A;
+}
+
+body[data-line="all"],
+body:not([data-line]) { --bg: #17100A; --tint: #F3A55A; }
+body[data-line="dvor"]      { --bg: #1E1409; --tint: #F0A63C; }
+body[data-line="kniga"]     { --bg: #130E0A; --tint: #F5C271; }
+body[data-line="babushka"]  { --bg: #2A1E10; --tint: #E8C77A; }
+body[data-line="banya"]     { --bg: #2B1610; --tint: #E2703C; }
+
+/* контент выше 1440 раздвигается плавно вместе с экраном, но не безгранично —
+   иначе строки в .hero p/.empty p (ограничены в ch) просто получают больше
+   воздуха вокруг, а не растягиваются: у них своя ширина в символах. */
+@media (min-width: 1441px) {
+  :root { --content: clamp(1180px, 78vw, 1600px); }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+html, body { overflow-x: hidden; max-width: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  position: relative;
+  transition: background-color .5s ease;
+}
+
+img { max-width: 100%; display: block; }
+svg { max-width: 100%; }
+a { color: inherit; }
+ul { padding: 0; margin: 0; }
+h1, h2, h3, p { margin: 0; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: 8px; top: -60px;
+  background: var(--amber); color: var(--paper);
+  padding: 10px 16px; border-radius: 4px;
+  z-index: 200; transition: top .16s ease;
+  font-family: var(--font-body); font-weight: 600; text-decoration: none;
+}
+.skip-link:focus { top: 8px; }
+
+:focus-visible {
+  outline: 2px solid var(--flame);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--flame) 45%, transparent);
+  border-radius: 3px;
+}
+/* на «Бумаге» кольцо фокуса — «Янтарь» (иначе «Пламя» на светлом почти не видно) */
+.card :focus-visible,
+.cart :focus-visible,
+.filters-bar :focus-visible {
+  outline-color: var(--amber);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--amber) 40%, transparent);
+}
+
+button { font: inherit; }
+
+/* ---------- Фоновый свет: блики (рев. 5) ---------- */
+/* Не заливка, а освещённая комната: четыре широких пятна, привязанных к --tint линейки.
+   z-index -1, а не 0 из черновика концепции: элемент position:fixed всегда создаёт
+   собственный стек, и на z-index:0 он красится ПОСЛЕ обычного статичного контента
+   (шапка, текст) и перекрывал бы его полупрозрачной заливкой — проверено в браузере. */
+.glints {
+  position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(760px 620px at 68% 16%, color-mix(in srgb, var(--tint) 15%, transparent), transparent 68%),
+    radial-gradient(900px 240px at 8% 4%, color-mix(in srgb, var(--tint) 7%, transparent), transparent 70%),
+    radial-gradient(1100px 700px at 22% 76%, color-mix(in srgb, #E8C77A 6%, transparent), transparent 70%),
+    radial-gradient(700px 520px at 96% 92%, color-mix(in srgb, var(--amber) 22%, transparent), transparent 72%);
+  transition: background .5s ease;
+}
+
+/* зерно поверх всей витрины — склеивает фотографии с фоном, гасит бэндинг у широких градиентов */
+body.grain::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 5; opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Шапка ---------- */
+
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  height: var(--header-h);
+  /* левая направляющая (рев. 8): содержимое шапки встаёт на ту же линию, что и
+     содержимое секций — (100% − content)/2 + pad; фон шапки остаётся во всю ширину,
+     двигается только padding. clamp снизу не даёт полю стать меньше --pad на узких
+     экранах, сверху не даёт вылезти за середину при совсем маленьком body. */
+  padding-inline: clamp(var(--pad), calc((100% - var(--content)) / 2 + var(--pad)), 50%);
+  background: color-mix(in srgb, var(--wood) 92%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.wordmark {
+  font-family: var(--font-display); font-weight: 400; font-size: 21px;
+  color: var(--paper); text-decoration: none; letter-spacing: 0;
+}
+.wordmark__o {
+  color: var(--flame);
+  text-shadow: 0 0 10px var(--flame), 0 0 20px color-mix(in srgb, var(--flame) 55%, transparent);
+}
+
+.site-nav ul { list-style: none; display: none; gap: 24px; }
+.site-nav a { text-decoration: none; font-weight: 500; font-size: .9375rem; color: var(--lace); }
+.site-nav a:hover { color: var(--flame); }
+
+.cart-toggle {
+  background: transparent; border: 1px solid var(--lace);
+  border-radius: 4px; padding: 8px 14px; color: var(--paper);
+  font-weight: 500; cursor: pointer; white-space: nowrap;
+}
+.cart-toggle:hover { border-color: var(--flame); color: var(--flame); }
+
+@media (min-width: 768px) {
+  .site-nav ul { display: flex; }
+  .wordmark { font-size: 24px; }
+}
+
+/* ---------- Дыхание света ---------- */
+
+@keyframes breathe-opacity { 0%, 100% { opacity: .86; } 50% { opacity: 1; } }
+@keyframes breathe-glow {
+  0%, 100% { text-shadow: 0 0 10px var(--flame), 0 0 20px color-mix(in srgb, var(--flame) 50%, transparent); }
+  50%      { text-shadow: 0 0 15px var(--flame), 0 0 30px color-mix(in srgb, var(--flame) 65%, transparent); }
+}
+.hero__glow.breathe { animation: breathe-opacity 6s ease-in-out infinite; }
+.wordmark__o.breathe { animation: breathe-glow 6s ease-in-out infinite; }
+
+/* ---------- Герой (рев. 5): один кадр, родная пропорция 3:2 ---------- */
+
+.hero {
+  position: relative; overflow: clip;
+  padding: 40px var(--pad) 32px;
+}
+.hero__inner {
+  position: relative; z-index: 1;
+  /* рев. 8: контейнер героя сужен на два поля, потому что padding у .hero лежит
+     СНАРУЖИ (в отличие от секций ниже, где padding — внутри max-width-бокса);
+     без этого H1 вставал на 130px, а заголовки секций — на 146px (тот самый разъезд). */
+  max-width: calc(var(--content) - 2 * var(--pad)); margin: 0 auto; width: 100%;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.hero h1 {
+  font-family: var(--font-display); font-weight: 200;
+  font-size: 32px; line-height: 1.1; max-width: 14ch;
+}
+.hero p { max-width: 56ch; font-size: 16px; line-height: 1.5; color: var(--lace); }
+.hero__cta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.hero__facts {
+  display: flex; flex-direction: column; gap: 4px;
+  font-family: var(--font-body); font-weight: 500; font-size: 12px;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: color-mix(in srgb, var(--lace) 70%, transparent);
+}
+
+.btn-primary {
+  background: var(--amber); color: var(--paper);
+  border: none; border-radius: 4px;
+  padding: 14px 28px; font-weight: 600; font-size: 1rem;
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+.btn-primary:active { transform: translateY(1px); }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.btn-secondary {
+  background: transparent; color: var(--sepia);
+  border: 1px solid var(--sepia); border-radius: 4px;
+  padding: 14px; font-weight: 600; cursor: pointer; width: 100%;
+  transition: transform .16s ease;
+}
+.btn-secondary:active { transform: translateY(1px); }
+.btn-secondary:disabled { opacity: .5; cursor: not-allowed; }
+
+/* кадр: родная пропорция 3:2, кроп запрещён где-либо кроме object-fit:cover
+   (допустим только потому, что бокс имеет ту же пропорцию, что и файл) */
+.hero__shot {
+  position: relative; margin: 0 calc(-1 * var(--pad));
+  width: calc(100% + 2 * var(--pad)); aspect-ratio: 3 / 2;
+  -webkit-mask-image: url("../assets/hero-mask-sm.svg");
+          mask-image: url("../assets/hero-mask-sm.svg");
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+.hero__shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hero__glow {
+  position: absolute; left: -10vw; top: -10vw; width: 120vw; aspect-ratio: 1 / 1;
+  z-index: 0; filter: blur(40px); pointer-events: none;
+  background: radial-gradient(closest-side at 38% 34%,
+    color-mix(in srgb, var(--tint) 45%, transparent), transparent 72%);
+  transition: background .5s ease;
+}
+
+@media (min-width: 800px) {
+  /* высота секции считается от самой фотографии (78vw × 2/3, минус запас 32px сверху
+     под маску), а не от vh — иначе низ секции не совпадает с низом кадра, и центрирование
+     блока текста «по секции» перестаёт быть центрированием «по фотографии» (это и было
+     причиной обеих жалоб человека на вертикаль героя, см. рев. 9 в концепции: было
+     52vw + 40px, из-за чего блок садился на 72px ниже центра кадра). Вертикальных padding
+     у секции больше нет — иначе воздух над и под блоком текста перестаёт быть равным. */
+  .hero { padding: 0 var(--pad); min-height: calc(52vw - 32px); display: flex; align-items: center; }
+  /* рев. 9: блок — ОДИН, без внутренних растяжек (margin-top:auto/space-between убраны);
+     он центрируется по высоте секции, а секция теперь равна высоте кадра — поэтому
+     центр секции и есть центр кадра, воздух сверху/снизу выходит равным по построению. */
+  .hero__inner { gap: 28px; }
+  .hero h1 { font-size: 56px; line-height: 1.12; letter-spacing: -.01em; max-width: 34vw; }
+  .hero p { font-size: 17px; line-height: 1.7; max-width: 34vw; }
+  .hero__cta { margin-top: 4px; }
+  /* рев. 9: факты возвращены В блок (не прижаты к низу секции) и просто отбиты от
+     кнопки чуть сильнее, чем обычный шаг колонки — раньше это давало дыру ≈240px. */
+  .hero__facts { margin-top: 20px; gap: 6px; max-width: 34vw; }
+  .hero__shot {
+    position: absolute; top: -32px; right: calc(-1 * (50vw - 50%));
+    width: 78vw; margin: 0; aspect-ratio: 3 / 2;
+    -webkit-mask-image: url("../assets/hero-mask.svg");
+            mask-image: url("../assets/hero-mask.svg");
+  }
+  .hero__glow { right: -4vw; left: auto; top: -60px; width: 80vw; height: 760px; aspect-ratio: auto; }
+
+  /* рев. 8: вертикальный ритм секций — 72px от видимого края предыдущего блока
+     (было разнобойно: 144 / 48 / 120). .lines уже 72px без media (см. ниже, там же
+     56/40px на более узких экранах) — здесь поднимаются только .showcase и .steps,
+     у которых было 48px на всех ширинах. */
+  .showcase { padding-top: 72px; }
+  .steps    { padding-top: 72px; }
+}
+
+/* ---------- Секция линеек: плитки (рев. 7, вариант B) ----------
+   Человек выбрал вариант B: у плитки нет бумажного поля, кадр лежит прямо на столе.
+   Отделяют его три вещи: направленный свет на резаном крае (кант ярче со стороны
+   источника, гаснет на дальнем крае, минимум .18), контактная тень и тёмный ореол.
+   В покое свечения --tint нет — оно появляется только у активной плитки (aria-current). */
+
+.lines { max-width: var(--content); margin: 72px auto 0; padding: 0 var(--pad); }
+.lines h2 {
+  font-family: var(--font-display); font-weight: 300; font-size: 25px;
+  margin-bottom: 20px;
+}
+/* D-Д2: на десктопе дисплейная шкала не поднималась — заголовок секции 25px вместо
+   32px по шкале (workspace/design/candles.md, «Типографика»), медиазапросов не было. */
+@media (min-width: 800px) {
+  .lines h2 { font-size: 32px; }
+}
+.lines__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.lines__hint { margin-top: 16px; font-size: 14px; color: var(--lace); }
+
+.tile { color: inherit; text-decoration: none; display: block; }
+.tile__name {
+  display: block; margin-top: 14px;
+  font-family: var(--font-display); font-weight: 300; font-size: 17px; color: var(--paper);
+}
+/* D-Д2: имя линейки на плитке — объявленное исключение из правила «не мельче 28px»,
+   но и у исключения своя шкала: 19px на 1440, 17px на 360 (было 17px везде). */
+@media (min-width: 800px) {
+  .tile__name { font-size: 19px; }
+}
+.tile__ep { display: block; font-size: 14px; line-height: 1.4; margin-top: 4px; color: var(--lace); }
+
+.tile__shot {
+  --lx: .5; --ly: .5;
+  position: relative; border-radius: 2px;
+  box-shadow:
+    0 2px 5px rgb(0 0 0 / .6),                                  /* контакт со столом */
+    calc((.5 - var(--lx)) * 44px) calc((.5 - var(--ly)) * 36px) /* тень ОТ источника */
+      34px rgb(0 0 0 / .55);
+}
+.tile__shot img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 2px; }
+
+/* тёмный ореол: стол вокруг кадра темнеет (замер: 21 → 12 по яркости) */
+.tile__shot::before {
+  content: ""; position: absolute; inset: -22px; z-index: -1; border-radius: 16px;
+  filter: blur(20px); pointer-events: none;
+  background: radial-gradient(closest-side at 50% 55%, rgb(0 0 0 / .75), transparent 78%);
+}
+
+/* свет на резаном крае: кант 1px, не ровный — радиальный градиент с центром в источнике.
+   Дальний край не слабее .18 (порог измерен на заведомо тёмном кадре, слабее — край пропадает). */
+.tile__shot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 2px; padding: 1px;
+  pointer-events: none;
+  background: radial-gradient(140% 140% at calc(var(--lx) * 100%) calc(var(--ly) * 100%),
+    rgb(255 241 219 / .92), rgb(255 241 219 / .34) 42%, rgb(255 241 219 / .18) 85%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+}
+
+/* активная линейка: свет вместо покоя */
+.tile[aria-current="true"] .tile__shot::after {
+  background: radial-gradient(140% 140% at calc(var(--lx) * 100%) calc(var(--ly) * 100%),
+    var(--tint), rgb(243 165 90 / .45) 45%, rgb(243 165 90 / .12) 80%);
+}
+.tile[aria-current="true"] .tile__shot::before {
+  background: radial-gradient(closest-side at calc(var(--lx) * 100%) calc(var(--ly) * 100%),
+    color-mix(in srgb, var(--tint) 55%, transparent), transparent 76%);
+}
+.tile[aria-current="true"] .tile__name { color: var(--tint); }
+.tile:hover .tile__shot::after { filter: brightness(1.25); }
+.tile:focus-visible { outline: 2px solid var(--tint); outline-offset: 4px; border-radius: 4px; }
+
+/* плейсхолдер плитки: тёплая плашка без фото, не серая и не тёмная дыра */
+.tile__shot--ph {
+  aspect-ratio: 3 / 2;
+  background: radial-gradient(closest-side at 50% 45%, #7A5127, #3A2412 85%);
+  display: grid; place-items: center; color: var(--lace);
+  font: 500 12px var(--font-body); letter-spacing: .14em; text-transform: uppercase;
+}
+
+@media (min-width: 700px) {
+  .lines__grid { grid-template-columns: repeat(4, 1fr); gap: 24px; }
+}
+@media (max-width: 800px) {
+  .lines { margin-top: 56px; }
+  .tile__shot::before { inset: -12px; filter: blur(12px); }
+}
+@media (max-width: 420px) { .lines { margin-top: 40px; } }
+
+/* ---------- Витрина ---------- */
+
+.showcase {
+  position: relative;
+  max-width: var(--content); margin: 0 auto; padding: 48px var(--pad) 0;
+}
+.showcase::before {
+  content: ""; position: absolute; inset: 0 var(--pad); z-index: -1; pointer-events: none;
+  background: radial-gradient(120% 60% at 50% -10%,
+    color-mix(in srgb, var(--tint) 9%, transparent), transparent 70%);
+  transition: background .5s ease;
+}
+
+.showcase__head { margin-bottom: 20px; }
+.showcase__title {
+  font-family: var(--font-display); font-weight: 300; font-size: 25px;
+}
+/* D-Д2: тот же элемент несёт две разные роли шкалы — «заголовок секции» («Витрина»,
+   25/32px) и «название линейки над сеткой» (27/40px), которые в шкале различаются.
+   JS переключает модификатор при выборе линейки (main.js, updateShowcaseHead). */
+.showcase__title--line { font-size: 27px; }
+@media (min-width: 800px) {
+  .showcase__title { font-size: 32px; }
+  .showcase__title--line { font-size: 40px; }
+}
+.showcase__epigraph {
+  margin-top: 6px; font-size: 17px; line-height: 1.5; color: var(--lace);
+}
+
+.filters-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px;
+  position: sticky; top: var(--header-h); z-index: 40;
+  padding: 12px 0; margin-bottom: 20px;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(4px);
+  transition: background-color .5s ease;
+}
+
+.filter-group { border: none; padding: 0; margin: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.filter-group legend {
+  padding: 0; margin: 0 2px 0 0; float: left;
+  font-weight: 500; font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--lace);
+}
+.filter-group__options { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+
+.chip { position: relative; display: inline-flex; }
+.chip input {
+  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0;
+}
+.chip label {
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding: 4px 2px; color: var(--lace);
+  font-weight: 500; font-size: 16px; cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .16s ease, border-color .16s ease;
+}
+.chip label:hover { color: var(--flame); }
+.chip input:checked + label {
+  color: var(--flame); border-bottom-color: var(--flame);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--flame) 35%, transparent);
+}
+
+.filters__reset {
+  background: none; border: none; color: var(--lace); text-decoration: underline;
+  text-decoration-color: var(--amber); cursor: pointer; font-weight: 500; font-size: 14px;
+  min-height: 44px; padding: 4px 2px;
+}
+.filters__reset:hover { color: var(--flame); }
+
+.counter {
+  font-weight: 500; font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--lace); margin: 0 0 0 auto;
+}
+
+.grid { display: grid; grid-template-columns: 1fr; gap: 20px; padding-bottom: 48px; }
+@media (min-width: 620px) and (max-width: 999px) {
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+@media (min-width: 1000px) {
+  .grid { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+}
+
+/* ---------- Карточка товара: бумажный отпечаток (рев. 5) ---------- */
+
+.card {
+  /* рев. 7: --lx/--ly безразмерные 0..1, НЕ проценты — box-shadow принимает только
+     <length>, процент в смещении делает объявление невалидным и тень не рендерится
+     вовсе (см. «Чем проверено, рев. 7» в концепции). */
+  --lx: .38; --ly: .34; --power: .45;
+  position: relative; top: 0; display: flex; flex-direction: column;
+  color: var(--sepia); border-radius: 2px;
+  padding: 12px 12px 20px;
+  background: radial-gradient(130% 100% at calc(var(--lx) * 100%) 0%,
+    #FBF0DD 0%, var(--paper) 55%, #E6D2B4 100%);
+  /* рев. 9.1: у самой карточки остаётся только контактная тень — направленная тень и
+     свет переехали в ::before/::after (см. ниже), иначе эта широкая чёрная тень
+     красится поверх свечения и убивает его (дефект D-Д3). */
+  box-shadow: 0 2px 4px rgb(0 0 0 / .45);
+  transition: top .3s ease;
+}
+/* рев. 6: сдвиг чётных карточек отменён — ряд выровнен по верхней линии; низ
+   выравнивается тем, что .card__spec уезжает вниз (margin-top:auto), а не сдвигом. */
+/* рев. 9.1: подъём на hover — НЕ transform. transform создаёт stacking context, и
+   слои ::before/::after с отрицательным z-index перестают уходить за бумагу и
+   красятся поверх нее (замерено: бумага темнеет с 230 до 141, текст тонет). */
+.card:hover { top: -2px; --power: .7; }
+/* рев. 9.1: тень и свет — два слоя одной геометрии, разнесённые в противоположные
+   стороны. ::before — тень, уходит ОТ источника света в снимке. */
+.card::before {
+  content: ""; position: absolute; inset: 0; z-index: -2; border-radius: 2px;
+  background: #000; opacity: .38; pointer-events: none;
+  filter: blur(20px);
+  transform: translate(calc((.5 - var(--lx)) * 52px), calc((.5 - var(--ly)) * 44px));
+}
+/* ::after — свет, уходит К источнику; меньше карточки (inset:16px), иначе блюр
+   вылезает со всех сторон сразу и получается равномерное гало вместо направленного
+   света (запрещено разделом про блики так же, как glow-orbs на фоне). */
+.card::after {
+  content: ""; position: absolute; inset: 16px; z-index: -1; border-radius: 6px;
+  background: var(--tint); opacity: calc(var(--power) * .42); pointer-events: none;
+  filter: blur(28px);
+  transform: translate(calc((var(--lx) - .5) * 130px), calc((var(--ly) - .5) * 112px));
+}
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } }
+
+.card__tag {
+  font-weight: 500; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--paper-mid); margin-bottom: 8px;
+}
+.card__shot, .card__ph { aspect-ratio: 3 / 2; overflow: hidden; margin-bottom: 12px; border-radius: 1px; }
+.card__shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* плейсхолдер СВЕТЛЕЕ бумаги (рев. 6): тёмный прямоугольник в кремовой карточке читался
+   дырой — при восьми недостающих кадрах таких дыр было бы восемь. */
+.card__ph {
+  background: radial-gradient(closest-side at calc(var(--lx) * 100%) calc(var(--ly) * 100%),
+    #FFF6E6, #E4CDA8 88%);
+  display: grid; place-items: center; color: #8B6F4E;
+  font: 500 12px var(--font-body); letter-spacing: .14em; text-transform: uppercase;
+}
+.card__name { font: 600 17px/1.25 var(--font-body); text-transform: uppercase; letter-spacing: .06em; }
+.card__memory { font-size: 16px; line-height: 1.5; margin-top: 8px; font-style: normal; }
+/* три ноты памяти в столбик (не строкой через точку) */
+.card__notes {
+  list-style: none; margin: 8px 0 0; padding: 0;
+  font-size: 15px; line-height: 1.45; color: var(--paper-mid);
+  display: flex; flex-direction: column; gap: 2px;
+}
+/* строка состава прижимается к низу карточки вместе с ценой/кнопкой/мессенджерами —
+   это и выравнивает ряд после отмены сдвига чётных карточек (рев. 6) */
+.card__spec {
+  font: 500 11px/1.4 var(--font-body); text-transform: uppercase; letter-spacing: .12em;
+  color: var(--paper-mid); margin-top: auto; padding-top: 12px;
+}
+.card__buy-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
+.card__price { font: 600 19px/1 var(--font-body); font-variant-numeric: tabular-nums; color: var(--amber); }
+.card__buy {
+  /* D-Д2: кнопка была мельче своей строки «фильтр, кнопка» из шкалы (16px) */
+  background: var(--amber); color: var(--paper); border: none;
+  border-radius: 4px; padding: 10px 16px; font-weight: 600; font-size: 16px; cursor: pointer;
+  transition: transform .16s ease;
+}
+.card__buy:active { transform: translateY(1px); }
+.card__links { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+.card__links a {
+  font-weight: 500; font-size: 14px; text-decoration: underline;
+  text-decoration-color: var(--amber); text-underline-offset: 3px;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  background: var(--paper); color: var(--sepia); border-radius: 2px;
+  padding: 40px 24px; text-align: center;
+  display: flex; flex-direction: column; gap: 12px; align-items: center;
+}
+/* D-Д2: заголовок пустого результата был на Unbounded 22px — мельче порога 28px
+   для дисплейного шрифта; переведён на текстовый Onest (выбор из двух вариантов,
+   предложенных дизайнером: Onest 16-17px либо Unbounded ≥28px). */
+.empty h3 { font-family: var(--font-body); font-weight: 600; font-size: 17px; }
+.empty p { color: var(--paper-mid); max-width: 48ch; }
+
+/* ---------- Шаги ---------- */
+
+.steps { max-width: var(--content); margin: 0 auto; padding: 48px var(--pad); }
+.steps h2 { font-family: var(--font-display); font-weight: 300; font-size: 25px; margin-bottom: 24px; }
+/* D-Д2: заголовок секции — 32px по шкале на десктопе, было 25px на всех ширинах. */
+@media (min-width: 800px) { .steps h2 { font-size: 32px; } }
+.steps ol { list-style: none; display: grid; gap: 24px; grid-template-columns: 1fr; }
+@media (min-width: 768px) { .steps ol { grid-template-columns: repeat(3, 1fr); } }
+.step { display: flex; flex-direction: column; gap: 8px; }
+.step__num {
+  font-family: var(--font-display); font-weight: 300; font-size: 32px; color: var(--flame);
+}
+.step h3 { font-weight: 600; font-size: 17px; }
+.step p { color: var(--lace); font-size: 15px; }
+
+/* ---------- Подвал ---------- */
+
+.site-footer { background: var(--wood); color: var(--paper); padding: 40px var(--pad) 24px; }
+.footer__inner {
+  /* левая направляющая (рев. 8): та же поправка, что у .hero__inner — .site-footer
+     задаёт padding СНАРУЖИ этого контейнера, поэтому без сужения на 2*pad первая
+     колонка вставала на 130px вместо 146 (найдено этим же замером на приёмке). */
+  max-width: calc(var(--content) - 2 * var(--pad)); margin: 0 auto;
+  display: grid; grid-template-columns: 1fr; gap: 28px;
+}
+@media (min-width: 768px) { .footer__inner { grid-template-columns: repeat(3, 1fr); } }
+/* D-Д2: заголовок колонки подвала был на Unbounded 19px — мельче порога 28px */
+.footer__title { font-family: var(--font-body); font-weight: 600; font-size: 16px; margin-bottom: 10px; }
+.footer__col p { font-size: 14px; line-height: 1.5; color: var(--lace); margin-top: 8px; }
+.footer__col p:first-of-type { margin-top: 0; }
+.site-footer a { text-decoration: underline; text-decoration-color: var(--amber); }
+.site-footer nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 16px; }
+.footer__bottom {
+  max-width: calc(var(--content) - 2 * var(--pad)); margin: 24px auto 0; padding-top: 20px;
+  border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  font-size: 13px; color: var(--paper-mid);
+}
+
+/* ---------- Корзина ---------- */
+
+.cart-backdrop {
+  position: fixed; inset: 0; background: color-mix(in srgb, var(--bg) 62%, transparent);
+  backdrop-filter: blur(6px);
+  z-index: 90; opacity: 0; pointer-events: none; transition: opacity .2s ease;
+}
+.cart-backdrop.is-visible { opacity: 1; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .cart-backdrop { transition: none; } }
+
+.cart {
+  position: fixed; top: 0; right: 0; height: 100%; width: 420px; max-width: 100%;
+  background: var(--paper); color: var(--sepia);
+  box-shadow: -6px 0 24px rgba(0,0,0,.35);
+  transform: translateX(100%);
+  transition: transform .24s ease-out;
+  z-index: 100; display: flex; flex-direction: column; padding: 24px; gap: 16px;
+  overflow-y: auto;
+}
+.cart.is-open { transform: translateX(0); }
+@media (prefers-reduced-motion: reduce) { .cart { transition: none; } }
+@media (max-width: 767px) {
+  .cart {
+    width: 100%; top: auto; bottom: 0; left: 0; height: 85vh;
+    border-radius: 12px 12px 0 0; transform: translateY(100%);
+  }
+  .cart.is-open { transform: translateY(0); }
+}
+
+.cart__head { display: flex; justify-content: space-between; align-items: center; }
+/* D-Д2: заголовок корзины был на Unbounded 22px — мельче порога 28px */
+.cart__head h2 { font-family: var(--font-body); font-weight: 600; font-size: 17px; }
+.cart__close { background: none; border: none; font-size: 1.75rem; line-height: 1; cursor: pointer; color: var(--sepia); }
+
+.cart__empty { color: var(--paper-mid); }
+
+.cart__list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.cart__item {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--sepia) 14%, transparent); padding-bottom: 12px;
+}
+.cart__item-info { display: flex; flex-direction: column; gap: 4px; }
+.cart__item-name { font-weight: 600; font-size: 15px; }
+.cart__item-qty { color: var(--paper-mid); font-size: 13px; }
+.cart__item-remove {
+  background: none; border: none; text-decoration: underline;
+  text-decoration-color: var(--amber); cursor: pointer; font-size: 14px; color: var(--sepia);
+  white-space: nowrap;
+}
+
+.cart__total {
+  display: flex; justify-content: space-between; font-weight: 600; font-size: 18px;
+  border-top: 2px solid var(--sepia); padding-top: 12px;
+}
+.cart__order { display: flex; flex-direction: column; gap: 8px; }
+.cart__note { font-size: 13px; color: var(--paper-mid); margin-top: 4px; }
+
+/* [hidden] — атрибутный селектор той же специфичности, что и класс; без явного правила
+   он проигрывает display:flex, заданному классам выше, и авторские стили перебивают
+   UA-правило "[hidden]{display:none}". Пустая корзина иначе показывает старые
+   итог/кнопки заказа поверх сообщения "пусто" (нарушение DoD A8). */
+.cart__list[hidden],
+.cart__total[hidden],
+.cart__order[hidden] { display: none; }
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  body, .glints, .showcase::before, .filters-bar, .hero__glow, .card { transition: none; }
+  .breathe { animation: none; }
+}

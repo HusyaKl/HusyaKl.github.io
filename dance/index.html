@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>movimiento — студия контемпорари в Москве. Расписание и запись</title>
+<meta name="description" content="movimiento — студия контемпорари для взрослых в Москве. Расписание на неделю, запись на занятие, преподаватели и видео с уроков.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@100;200&family=Golos+Text:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<a class="skip-link" href="#content">Перейти к содержанию</a>
+
+<header class="head">
+  <div class="mark">movimiento</div>
+  <nav aria-label="Разделы страницы"><a href="#week" data-opt2>расписание</a><a href="#book">записаться</a><a href="#who" data-opt>кто ведёт</a></nav>
+</header>
+
+<main id="content">
+
+<!-- ГЕРОЙ -->
+<section class="hero" aria-label="Знакомство со студией">
+  <div class="hero__grid">
+    <div class="stand">
+      <h1 class="stand__t stand__wall">тело говорит<br>первым</h1>
+      <p class="stand__t stand__floor" aria-hidden="true">тело говорит<br>первым</p>
+    </div>
+    <div class="hero__lead">
+      <p class="eyebrow hero__kicker">Контемпорари для взрослых · Москва</p>
+      <p>Занятия по вечерам. Не нужно ни базы, ни растяжки, ни «подходящего тела» — нужно только прийти.</p>
+      <div class="actions"><a href="#week">Смотреть расписание</a><a href="#book">Записаться</a></div>
+    </div>
+  </div>
+  <p class="eyebrow hero__cap">зал перед занятием</p>
+  <div class="hero__floor" role="img" aria-label="Пустой зал студии: зеркальная стена, лакированный паркет с отражением вечернего света"></div>
+</section>
+
+<!-- РАСПИСАНИЕ -->
+<section class="slab slab--plaster" id="week" aria-labelledby="week-title">
+  <div class="sec-top">
+    <h2 class="sec-h" id="week-title">когда</h2>
+    <p>Занятие — час. Будни с 18:00, выходные днём. «С нуля» — это правда с нуля: первый раз можно прийти, ничего не умея.</p>
+  </div>
+  <!-- ЗАГЛУШКА: конкретные направления в слотах и распределение преподавателей по дням придуманы
+       разработчиком в рамках ограничений, заданных человеком (30.08 14:00): по часу на слот,
+       будни 18:00–21:00, выходные днём. Реальную сетку человек не прислал. -->
+  <div class="week">
+    <div class="grid7">
+      <div class="d"></div><div class="d">понедельник</div><div class="d">вторник</div><div class="d">среда</div><div class="d">четверг</div><div class="d">пятница</div>
+      <div class="rule"></div>
+      <div class="h">18:00</div>
+      <div data-day="понедельник" class="cell"><b>партер</b><span>любой уровень · Аня</span></div>
+      <div data-day="вторник" class="cell"><b>контемпорари · с нуля</b><span>новички · Даша</span></div>
+      <div data-day="среда" class="cell"><b>партер</b><span>любой уровень · Аня</span></div>
+      <div data-day="четверг" class="cell"><b>контемпорари · с нуля</b><span>новички · Даша</span></div>
+      <div data-day="пятница" class="cell empty">нет занятий</div>
+      <div class="rule"></div>
+      <div class="h">19:00</div>
+      <div data-day="понедельник" class="cell"><b>контемпорари · с нуля</b><span>новички · Аня</span></div>
+      <div data-day="вторник" class="cell"><b>импровизация</b><span>открытый · Марина</span></div>
+      <div data-day="среда" class="cell"><b>контемпорари · с нуля</b><span>новички · Аня</span></div>
+      <div data-day="четверг" class="cell"><b>техника</b><span>продолжающие · Даша</span></div>
+      <div data-day="пятница" class="cell"><b>импровизация</b><span>открытый · Марина</span></div>
+      <div class="rule"></div>
+      <div class="h">20:00</div>
+      <div data-day="понедельник" class="cell"><b>контемпорари</b><span>продолжающие · Даша</span></div>
+      <div data-day="вторник" class="cell"><b>композиция</b><span>продолжающие · Марина</span></div>
+      <div data-day="среда" class="cell"><b>контемпорари</b><span>продолжающие · Даша</span></div>
+      <div data-day="четверг" class="cell"><b>импровизация</b><span>открытый · Марина</span></div>
+      <div data-day="пятница" class="cell"><b>открытый класс</b><span>любой уровень · Аня</span></div>
+      <div class="rule"></div>
+    </div>
+    <div class="wknd">
+      <div class="d">выходные</div><div class="d">суббота</div><div class="d">воскресенье</div>
+      <div class="rule"></div>
+      <div class="h">12:00</div>
+      <div data-day="суббота" class="cell"><b>контемпорари · с нуля</b><span>новички · Аня</span></div>
+      <div data-day="воскресенье" class="cell"><b>открытый класс</b><span>любой уровень · Марина</span></div>
+      <div class="rule"></div>
+      <div class="h">13:00</div>
+      <div data-day="суббота" class="cell"><b>партер</b><span>любой уровень · Даша</span></div>
+      <div data-day="воскресенье" class="cell"><b>контемпорари</b><span>продолжающие · Даша</span></div>
+      <div class="rule"></div>
+      <div class="h">14:00</div>
+      <div data-day="суббота" class="cell"><b>импровизация</b><span>открытый · Марина</span></div>
+      <div data-day="воскресенье" class="cell empty">нет занятий</div>
+      <div class="rule"></div>
+    </div>
+  </div>
+  <div class="price">
+    <div class="sum">3000 ₽</div>
+    <p>за занятие · 60 минут. Первый раз — то же самое: пробных цен нет, есть первое занятие.</p>
+  </div>
+</section>
+
+<!-- ЗАПИСЬ -->
+<section class="slab slab--dark" id="book" aria-labelledby="book-title">
+  <div class="sec-top">
+    <h2 class="sec-h" id="book-title">записаться</h2>
+    <p>Форма пока демонстрационная: канал приёма заявок ещё не подключён, заявка не отправляется. Заполните её, чтобы увидеть, как будет выглядеть запись.</p>
+  </div>
+  <div class="book__grid">
+  <div>
+  <!-- ЗАГЛУШКА: канал приёма заявок ещё не подтверждён человеком (вопрос от 30.08 17:36:
+       телеграм / почта / внешний сервис). Пока форма честно сообщает, что это демонстрация,
+       и не отправляет данные никуда — см. scripts/main.js, BOOKING_CHANNEL.
+       Эта копия (лид секции строкой выше и подпись у кнопки ниже) не выводится из BOOKING_CHANNEL
+       автоматически — когда канал появится, поменяйте её здесь же, вместе с объектом в main.js. -->
+  <form class="form" id="booking-form" novalidate>
+    <div class="f"><label for="n">Имя</label><input id="n" name="name" required autocomplete="name" placeholder="Как к вам обращаться"></div>
+    <div class="f"><label for="t">Телефон или телеграм</label><input id="t" name="contact" required autocomplete="tel" placeholder="+7 или @ник"></div>
+    <div class="f f--wide"><label for="s">День и время</label>
+      <select id="s" name="slot" required>
+        <option value="" selected disabled>выберите занятие</option>
+        <option>понедельник · 19:00 · контемпорари с нуля</option>
+        <option>вторник · 18:00 · контемпорари с нуля</option>
+        <option>суббота · 12:00 · контемпорари с нуля</option>
+      </select></div>
+    <div class="f f--wide"><label for="c">Что о себе сказать (необязательно)</label><input id="c" name="comment" placeholder="Например: не танцевала никогда, боюсь зеркал"></div>
+    <div class="submit"><button type="submit">Записаться</button><span>Демо-форма: канал приёма заявок ещё не подключён, заявка не отправляется.</span></div>
+    <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+  </form>
+  <p class="note">Что взять: одежду, в которой не жалко лечь на пол, и носки. Танцуем босиком или в носках, обувь не нужна. Приходите за десять минут до начала, чтобы переодеться без спешки.</p>
+  </div>
+  <figure class="book__ph"><img src="assets/photos/wall-figure.jpg" width="980" height="1222" alt="Танцовщица у штукатурной стены, прогиб назад">
+    <figcaption class="figc">кадр из ваших референсов · не съёмка студии, права уточняются</figcaption></figure>
+  </div>
+</section>
+
+<!-- ПОЛОСА: ДВИЖЕНИЕ -->
+<figure class="band">
+  <img src="assets/photos/stage.jpg" width="1240" height="827" alt="Четыре танцовщицы в движении на сцене, контровой свет" loading="lazy">
+  <figcaption>на сцене</figcaption>
+</figure>
+
+<!-- МАНИФЕСТ -->
+<section class="manifest" aria-labelledby="manifest-title">
+  <div class="manifest__grid">
+    <div>
+      <h2 class="disp" id="manifest-title">будь собой</h2>
+      <p>Контемпорари — не набор фигур, которые надо повторить за преподавателем. Это способ сказать телом то, на что не хватает слов.</p>
+      <p>Зеркало в зале — не для сравнения с соседкой. Оно чтобы вы себя увидели.</p>
+    </div>
+    <figure>
+      <img src="assets/photos/canvas-figure.jpg" width="980" height="1198" alt="Танцовщица на полу студийного холста, руки над головой" loading="lazy">
+      <figcaption class="figc">кадр из ваших референсов · не съёмка студии, права уточняются</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ПОЛОСА: ГРУППА -->
+<figure class="band">
+  <img src="assets/photos/group.jpg" width="1240" height="1078" alt="Группа сидит на полу у зеркальной стены после занятия" loading="lazy">
+  <figcaption>после класса</figcaption>
+</figure>
+
+<!-- ПРЕПОДАВАТЕЛИ -->
+<!-- ЗАГЛУШКА: имена, специализации и реплики придуманы разработчиком по прямому разрешению
+     человека («Преподаватели: придумай», 30.08 14:00). Живых людей за ними нет. -->
+<section class="teach" id="who" aria-labelledby="who-title">
+  <h2 class="sec-h" id="who-title">кто ведёт</h2>
+  <div class="teach__grid">
+    <div><h3>Аня</h3><p class="role">контемпорари, партер</p>
+      <p>Ведёт группы с нуля. Считает, что первое занятие надо пережить, а не станцевать.</p>
+      <p class="voice">голос зала<em>«пол сам держит — отпусти вес»</em></p></div>
+    <div><h3>Марина</h3><p class="role">импровизация, композиция</p>
+      <p>Пятнадцать лет на сцене, десять — в зале с теми, кто пришёл впервые.</p>
+      <p class="voice">голос зала<em>«не придумывай движение, дай ему случиться»</em></p></div>
+    <div><h3>Даша</h3><p class="role">техника, продолжающие</p>
+      <p>Собирает из движений группы короткие работы — их показываем два раза в год.</p>
+      <p class="voice">голос зала<em>«не тянись глазами — тянись рёбрами»</em></p></div>
+  </div>
+</section>
+
+<!-- ВИДЕО -->
+<section class="slab slab--dark video" aria-labelledby="video-title">
+  <div class="sec-top"><h2 class="sec-h" id="video-title">как это выглядит</h2>
+    <p>Проще один раз посмотреть. На канале — отрывки занятий и работы с отчётных вечеров.</p></div>
+  <figure class="band band--in">
+    <img src="assets/photos/shadows.jpg" width="1240" height="1065" alt="Отчётный вечер: группа танцует, длинные тени на полу зала" loading="lazy">
+    <figcaption>показ в конце сезона</figcaption>
+  </figure>
+  <div class="video__foot">
+    <p>Съёмки с занятий выкладываем раз в неделю.</p>
+    <!-- ЗАГЛУШКА: ссылки на YouTube нет — человек подтвердил (30.08 14:00), что канала пока нет.
+         Ссылка ведёт в начало страницы, пока адрес не появится. -->
+    <p class="actions"><a href="#content" aria-describedby="video-note">Смотреть на YouTube ↗</a></p>
+  </div>
+  <p id="video-note" class="eyebrow video__note">канал пока не создан · ссылка появится, когда он будет</p>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div class="mark">movimiento</div>
+    <!-- ЗАГЛУШКА: адрес зала и телефон/телеграм не присланы человеком (вопрос от 30.08 17:36) -->
+    <div class="ph">Москва · адрес уточняется</div>
+    <div><a href="#book">Записаться</a></div>
+    <div class="ph">Телефон и Telegram — уточняются</div>
+  </div>
+</footer>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>

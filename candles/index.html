@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>вспомни — свечи и духи с запахами из детства</title>
+<meta name="description" content="Свечи и духи ручной работы «вспомни»: ароматы-воспоминания о дворе, любимой книге, лете у бабушки и бане. Заказ в Telegram и Instagram.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/main.css">
+</head>
+<body class="grain">
+
+<a class="skip-link" href="#vitrina">Перейти к витрине</a>
+
+<div class="glints" aria-hidden="true"></div>
+
+<header class="site-header">
+  <a class="wordmark" href="#top">всп<span class="wordmark__o breathe">о</span>мни</a>
+  <nav class="site-nav" aria-label="Разделы страницы">
+    <ul>
+      <li><a href="#linii">Линейки</a></li>
+      <li><a href="#vitrina">Витрина</a></li>
+      <li><a href="#kak-zakazat">Как заказать</a></li>
+    </ul>
+  </nav>
+  <button type="button" class="cart-toggle" id="cart-toggle" aria-controls="cart" aria-expanded="false">
+    Корзина · <span id="cart-count">0</span>
+  </button>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-label="Знакомство с брендом">
+    <div class="hero__glow breathe" aria-hidden="true"></div>
+    <div class="hero__shot">
+      <img src="assets/photos/svecha-v-gostyah-u-babushki-hero.jpg" width="1600" height="1067"
+           style="--lx:.38;--ly:.34"
+           alt="Свеча в янтарной банке горит на столе среди старых фотографий, сухоцветов и кружевной салфетки">
+    </div>
+    <div class="hero__inner">
+      <h1>Чем пахло у бабушки в чулане?</h1>
+      <p>Свечи и духи ручной работы. Запах не передать через экран, поэтому сначала — воспоминание, потом уже товар. Если узнали своё, дальше решать вам.</p>
+      <div class="hero__cta">
+        <a class="btn-primary" href="#vitrina">Открыть витрину</a>
+      </div>
+      <p class="hero__facts">
+        <span>10 ароматов · 4 линейки</span>
+        <span>соевый воск · разливаем руками · отправляем по России</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="lines" id="linii" aria-labelledby="lines-title">
+    <h2 id="lines-title">Четыре линейки — четыре повода вспомнить</h2>
+    <div class="lines__grid" id="line-tiles"></div>
+    <p class="lines__hint">Нажмите на линейку — витрина покажет только её</p>
+  </section>
+
+  <section class="showcase" id="vitrina" data-line="all" aria-labelledby="showcase-title">
+    <div class="showcase__head">
+      <h2 class="showcase__title" id="showcase-title">Витрина</h2>
+      <p class="showcase__epigraph" id="showcase-epigraph" hidden></p>
+    </div>
+
+    <div class="filters-bar" role="group" aria-label="Фильтры каталога">
+      <fieldset class="filter-group">
+        <legend>Что это</legend>
+        <div class="filter-group__options" id="type-filter">
+          <span class="chip">
+            <input type="radio" name="type-filter" id="type-all" value="all" checked>
+            <label for="type-all">всё</label>
+          </span>
+          <span class="chip">
+            <input type="radio" name="type-filter" id="type-candle" value="candle">
+            <label for="type-candle">свечи</label>
+          </span>
+          <span class="chip">
+            <input type="radio" name="type-filter" id="type-perfume" value="perfume">
+            <label for="type-perfume">духи</label>
+          </span>
+        </div>
+      </fieldset>
+
+      <fieldset class="filter-group">
+        <legend>Линейка</legend>
+        <div class="filter-group__options" id="line-filter">
+          <span class="chip">
+            <input type="radio" name="line-filter" id="line-all" value="all" checked>
+            <label for="line-all">все</label>
+          </span>
+          <span class="chip">
+            <input type="radio" name="line-filter" id="line-dvor" value="dvor">
+            <label for="line-dvor">двор до темноты</label>
+          </span>
+          <span class="chip">
+            <input type="radio" name="line-filter" id="line-kniga" value="kniga">
+            <label for="line-kniga">дочитать под одеялом</label>
+          </span>
+          <span class="chip">
+            <input type="radio" name="line-filter" id="line-babushka" value="babushka">
+            <label for="line-babushka">босиком по траве</label>
+          </span>
+          <span class="chip">
+            <input type="radio" name="line-filter" id="line-banya" value="banya">
+            <label for="line-banya">второй пар</label>
+          </span>
+        </div>
+      </fieldset>
+
+      <button type="button" class="filters__reset" id="filters-reset">показать всё</button>
+      <p class="counter" id="counter" aria-live="polite">Показано 10 из 10</p>
+    </div>
+
+    <div class="grid" id="product-grid" aria-live="polite"></div>
+  </section>
+
+  <section class="steps" id="kak-zakazat" aria-labelledby="steps-title">
+    <h2 id="steps-title">Как заказать</h2>
+    <ol>
+      <li class="step">
+        <span class="step__num" aria-hidden="true">1</span>
+        <h3>Выберите аромат</h3>
+        <p>Фильтры сверху: свечи или духи, линейка по настроению.</p>
+      </li>
+      <li class="step">
+        <span class="step__num" aria-hidden="true">2</span>
+        <h3>Соберите корзину</h3>
+        <p>Можно взять несколько — сумма посчитается сразу.</p>
+      </li>
+      <li class="step">
+        <span class="step__num" aria-hidden="true">3</span>
+        <h3>Напишите нам</h3>
+        <p>Кнопка соберёт список в сообщение. Останется отправить.</p>
+      </li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer__inner">
+    <div class="footer__col">
+      <h2 class="footer__title">вспомни</h2>
+      <p>Мастерская свечей и духов с запахами из детства. Делаем небольшими партиями, поэтому иногда чего-то нет в наличии — спросите, сварим.</p>
+    </div>
+    <div class="footer__col">
+      <h2 class="footer__title">Пока горит</h2>
+      <p><strong>Как хранить свечу.</strong> Первый раз жгите два часа, чтобы воск растопился до краёв: тогда свеча выгорит ровно.</p>
+      <p><strong>Доставка.</strong> Отправляем по России, собираем заказ 1–2 дня. Стоимость считаем в переписке.</p>
+    </div>
+    <div class="footer__col">
+      <h2 class="footer__title">Написать</h2>
+      <nav aria-label="Ссылки в подвале">
+        <ul>
+          <li><a href="https://t.me/vspomni_shop" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+          <li><a href="https://www.instagram.com/vspomni_shop/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        </ul>
+      </nav>
+      <p>Отвечаем в течение дня, обычно быстрее.</p>
+    </div>
+  </div>
+  <p class="footer__bottom">вспомни · 2026 · сделано в одной комнате при свече</p>
+</footer>
+
+<div class="cart-backdrop" id="cart-backdrop"></div>
+<aside class="cart" id="cart" aria-label="Корзина" inert>
+  <div class="cart__head">
+    <h2>Корзина</h2>
+    <button type="button" class="cart__close" id="cart-close" aria-label="Закрыть корзину">×</button>
+  </div>
+
+  <div id="cart-body">
+    <p class="cart__empty" id="cart-empty">В корзине пусто. Выберите на витрине то, что хочется вспомнить.</p>
+    <ul class="cart__list" id="cart-list" hidden></ul>
+    <div class="cart__total" id="cart-total" hidden>
+      <span>Итого</span>
+      <span id="cart-total-value">0 ₽</span>
+    </div>
+    <div class="cart__order" id="cart-order" hidden>
+      <button type="button" class="btn-primary" id="order-tg">Заказать в Telegram</button>
+      <button type="button" class="btn-secondary" id="order-ig">Заказать в Instagram</button>
+      <p class="cart__note" id="cart-note" role="status" aria-live="polite">Оплата и доставка — в переписке, отвечаем в течение дня.</p>
+    </div>
+  </div>
+</aside>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>
