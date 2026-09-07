@@ -3,58 +3,238 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Сайты — портфолио</title>
+<title>Сайты под конкретного человека или бизнес</title>
+<meta name="description" content="Разработка сайтов под конкретную задачу: лендинги, каталоги с фильтрами, интерактивные конструкторы. Своя вёрстка или шаблон. Приём заявок, CRM, аналитика.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#12100e;--fg:#efe7dc;--dim:#9a8b78;--line:#2b2520;--card:#191512}
+  :root{
+    --bg:#fff; --fg:#16181d; --dim:#5f6672; --line:#e6e8ec; --soft:#f6f7f9;
+    --accent:#1d4ed8; --radius:10px;
+    --wrap:min(1180px, 92vw);
+  }
   *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--bg);color:var(--fg);
-       font:16px/1.6 "Golos Text",ui-sans-serif,system-ui,sans-serif;
-       padding:clamp(28px,6vw,80px)}
-  .wrap{max-width:min(1100px,92vw);margin:0 auto}
-  h1{font-size:clamp(30px,5vw,52px);line-height:1.1;margin:0 0 12px;font-weight:600;letter-spacing:-.02em}
-  .lead{color:var(--dim);max-width:56ch;margin:0 0 48px}
-  .grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-  a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;
-         overflow:hidden;color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
-  a.card:hover,a.card:focus-visible{border-color:#6b5a48;transform:translateY(-2px)}
-  a.card:focus-visible{outline:2px solid #d9922a;outline-offset:3px}
-  .shot{aspect-ratio:16/10;background:#0d0b09 center/cover no-repeat;border-bottom:1px solid var(--line)}
-  .body{padding:18px 20px 22px}
-  .body h2{margin:0 0 6px;font-size:20px;font-weight:600}
-  .body p{margin:0;color:var(--dim);font-size:14.5px}
-  .tag{display:inline-block;margin-top:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8a7c6c}
+       font:16px/1.65 Inter,ui-sans-serif,system-ui,"Segoe UI",sans-serif;
+       font-feature-settings:"tnum" 0}
+  .wrap{width:var(--wrap);margin-inline:auto}
+  a{color:inherit}
+  h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+  p{margin:0}
+
+  header{border-bottom:1px solid var(--line);padding:18px 0}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .brand{font-weight:600;letter-spacing:-.01em}
+  .tg{display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+      border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:500}
+  .tg:hover{border-color:var(--accent);color:var(--accent)}
+  .tg:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .hero{padding:clamp(28px,4vw,44px) 0 clamp(18px,2.5vw,26px)}
+  .hero h1{font-size:clamp(27px,3.9vw,42px);line-height:1.1;max-width:24ch}
+  .hero p{margin-top:14px;max-width:74ch;font-size:clamp(15px,1.4vw,16.5px);color:var(--dim)}
+
+  section{padding:clamp(36px,5vw,64px) 0;border-top:1px solid var(--line)}
+  section.works-sec{padding-top:clamp(14px,2vw,22px);border-top:0}
+  .works-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .works-head p{color:var(--dim);font-size:14.5px}
+  .eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .sec-title{font-size:clamp(22px,3vw,30px);line-height:1.2}
+  .sec-lead{margin-top:12px;color:var(--dim);max-width:66ch}
+
+  .works{display:grid;gap:28px;margin-top:16px}
+  @media (min-width:900px){.works{grid-template-columns:repeat(3,1fr);gap:24px}}
+
+  .work{border:1px solid var(--line);border-radius:var(--radius);overflow:clip;
+        background:var(--bg);display:flex;flex-direction:column;
+        container-type:inline-size;transition:border-color .18s}
+  .work:hover{border-color:#c9ced8}
+  .frame{position:relative;aspect-ratio:16/11;overflow:clip;background:var(--soft);
+         border-bottom:1px solid var(--line)}
+  .frame iframe{position:absolute;inset:0;width:1440px;height:990px;border:0;
+                transform-origin:0 0;transform:scale(var(--s,.28));background:#fff}
+  .frame .veil{position:absolute;inset:0}
+  .work__body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .work__body h3{font-size:19px}
+  .work__kind{font-size:12.5px;color:var(--dim);letter-spacing:.02em}
+  .work__hook{font-size:14.5px;line-height:1.55}
+  .work__hook b{font-weight:600}
+  .work__open{margin-top:auto;padding-top:10px;font-size:14px;font-weight:500;
+              color:var(--accent);text-decoration:none}
+  .work__open:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+  .note{margin-top:22px;font-size:13.5px;color:var(--dim);max-width:70ch}
+
+  .cols{display:grid;gap:26px;margin-top:28px}
+  @media (min-width:760px){.cols{grid-template-columns:1fr 1fr;gap:40px}}
+  .list{list-style:none;margin:0;padding:0;display:grid;gap:0}
+  .list li{padding:13px 0;border-top:1px solid var(--line);display:grid;gap:3px}
+  .list li:first-child{border-top:0;padding-top:0}
+  .list b{font-weight:600;font-size:15.5px}
+  .list span{font-size:14px;color:var(--dim);line-height:1.5}
+
+  .cta{background:var(--soft);border-radius:var(--radius);padding:clamp(24px,4vw,40px);
+       margin:8px 0 0;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .cta h2{font-size:clamp(19px,2.4vw,24px)}
+  .cta p{color:var(--dim);font-size:15px;margin-top:6px;max-width:52ch}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;
+       text-decoration:none;border-radius:999px;padding:12px 22px;font-weight:500;font-size:15px;white-space:nowrap}
+  .btn:hover{background:#1a44bd}
+  .btn:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--dim);font-size:13.5px}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Сайты</h1>
-  <p class="lead">Концептуальные работы: бренды и наполнение придуманы, чтобы показать подход.
-     Каждый сайт собирается под конкретную идею — так, чтобы он был не просто страницей,
-     а продолжением бренда.</p>
 
-  <div class="grid">
-    <a class="card" href="candles/">
-      <div class="shot" style="background-image:url('candles/assets/photos/svecha-v-gostyah-u-babushki-hero.jpg')"></div>
-      <div class="body">
-        <h2>вспомни</h2>
-        <p>Магазин свечей и духов с запахами из детства. Каталог с двумя типами фильтров,
-           корзина, заказ через мессенджеры. Свет фотографии продолжается на страницу.</p>
-      </div>
-    </a>
+<header>
+  <div class="wrap top">
+    <span class="brand">Анастасия · сайты под задачу</span>
+    <a class="tg" href="https://t.me/anastaishaKL" rel="noopener">Telegram @anastaishaKL</a>
+  </div>
+</header>
 
-    <a class="card" href="dance/">
-      <div class="shot" style="background-image:url('dance/assets/photos/hero-hall-wide.jpg')"></div>
-      <div class="body">
-        <h2>movimiento</h2>
-        <p>Студия контемпорари. Монохром без единого цветного значения, расписание,
-           запись, преподаватели. Заголовок стоит на линии пола реального зала.</p>
-      </div>
-    </a>
+<main>
+  <div class="wrap hero">
+    <h1>Сайты, собранные под конкретного человека или бизнес</h1>
+    <p>Не типовая страница с подставленным логотипом, а решение под вашу задачу. Вёрстка с нуля
+       или готовый шаблон — как удобнее: шаблон быстрее и дешевле, своя вёрстка потом развивается,
+       а не переделывается.</p>
   </div>
 
-</div>
+  <section class="works-sec">
+    <div class="wrap">
+      <div class="works-head">
+        <h2 class="sec-title">Работы</h2>
+        <p>Живые страницы, а не скриншоты — превью можно открыть. Раздел пополняется.</p>
+      </div>
+
+      <div class="works">
+        <article class="work">
+          <div class="frame">
+            <iframe src="candles/" title="Сайт «вспомни» — превью" loading="lazy" inert scrolling="no"></iframe>
+            <span class="veil"></span>
+          </div>
+          <div class="work__body">
+            <h3>вспомни</h3>
+            <p class="work__kind">Магазин · каталог с фильтрами и корзиной</p>
+            <p class="work__hook"><b>Фильтр меняет не список, а свет в комнате.</b> Выбор линейки
+               перекрашивает витрину, тени карточек падают от источника света на фотографии.
+               Заказ уходит в мессенджер вместе с составом корзины.</p>
+            <a class="work__open" href="candles/">Открыть сайт →</a>
+          </div>
+        </article>
+
+        <article class="work">
+          <div class="frame">
+            <iframe src="dance/" title="Сайт «movimiento» — превью" loading="lazy" inert scrolling="no"></iframe>
+            <span class="veil"></span>
+          </div>
+          <div class="work__body">
+            <h3>movimiento</h3>
+            <p class="work__kind">Студия · расписание и запись</p>
+            <p class="work__hook"><b>Ни одного цветного значения во всём коде.</b> Строгий монохром,
+               в котором работают только фотографии; заголовок стоит на линии пола реального зала,
+               а не на нарисованной подложке.</p>
+            <a class="work__open" href="dance/">Открыть сайт →</a>
+          </div>
+        </article>
+
+        <article class="work">
+          <div class="frame">
+            <iframe src="prosvet/" title="Сайт «Просвет» — превью" loading="lazy" inert scrolling="no"></iframe>
+            <span class="veil"></span>
+          </div>
+          <div class="work__body">
+            <h3>Просвет</h3>
+            <p class="work__kind">Окна · конструктор с расчётом</p>
+            <p class="work__hook"><b>Клиент видит цену до звонка.</b> Вводит размеры проёма и
+               комплектацию — чертёж перерисовывается в реальном времени, смета пересчитывается
+               построчно, видно, из чего сложилась сумма.</p>
+            <a class="work__open" href="prosvet/">Открыть сайт →</a>
+          </div>
+        </article>
+      </div>
+
+      <p class="note">Бренды и наполнение в работах придуманы: это концептуальные проекты,
+         сделанные, чтобы показать подход. Ваш сайт собирается под ваш продукт, тексты и фотографии.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Что делаю</p>
+      <h2 class="sec-title">Форматы сайтов</h2>
+      <div class="cols">
+        <ul class="list">
+          <li><b>Лендинг</b><span>Одна страница под одно действие: заявка, запись, звонок. Когда нужно быстро и понятно.</span></li>
+          <li><b>Каталог</b><span>Товары или услуги с фильтрами, поиском и корзиной. Заказ уходит туда, где вам удобно его принимать.</span></li>
+          <li><b>Конструктор или калькулятор</b><span>Клиент собирает конфигурацию и сразу видит цену. Снимает половину вопросов до первого разговора.</span></li>
+        </ul>
+        <ul class="list">
+          <li><b>Имиджевая страница</b><span>Когда решает не список услуг, а атмосфера: студия, мастерская, бренд, портфолио.</span></li>
+          <li><b>Многостраничный сайт</b><span>Разделы, статьи, блог, страницы услуг — со сквозной навигацией и единой системой стилей.</span></li>
+          <li><b>Доработка существующего</b><span>Починить адаптив, ускорить, привести к одному стилю, добавить нужный раздел.</span></li>
+          <li><b>Шаблон или своя вёрстка</b><span>Можно взять готовый шаблон и адаптировать под вас — быстрее и дешевле. Можно собрать с нуля — дороже, зато сайт остаётся вашим и растёт вместе с задачами.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Интеграции</p>
+      <h2 class="sec-title">Что подключается к сайту</h2>
+      <p class="sec-lead">Подбирается под то, как вы уже работаете: если заявки удобнее принимать
+         в Telegram — будет Telegram, если у вас CRM — заявка попадёт в неё.</p>
+      <div class="cols">
+        <ul class="list">
+          <li><b>Приём заявок</b><span>Письмо на почту, сообщение в Telegram или бот — с составом заказа, а не просто «оставлена заявка».</span></li>
+          <li><b>CRM</b><span>amoCRM, Битрикс24 и подобные: заявка создаёт сделку с заполненными полями. Подключается через их формы или API.</span></li>
+          <li><b>Мессенджеры и связь</b><span>Кнопки WhatsApp и Telegram с готовым текстом обращения, обратный звонок, онлайн-чат.</span></li>
+        </ul>
+        <ul class="list">
+          <li><b>Аналитика</b><span>Яндекс.Метрика или Google Analytics с целями: видно, откуда пришли и где отвалились.</span></li>
+          <li><b>Оплата и карты</b><span>Приём платежей через платёжный сервис, карта проезда, расписание, отзывы.</span></li>
+          <li><b>Самостоятельное редактирование</b><span>Если тексты и цены нужно менять самим — подключается CMS или таблица как источник данных.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="cta">
+        <div>
+          <h2>Расскажите про задачу</h2>
+          <p>Опишите, что за продукт и что должен делать сайт — отвечу, что для этого нужно
+             и сколько времени займёт.</p>
+        </div>
+        <a class="btn" href="https://t.me/anastaishaKL" rel="noopener">Написать в Telegram</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Анастасия · разработка сайтов · <a href="https://t.me/anastaishaKL" rel="noopener">@anastaishaKL</a></div>
+</footer>
+
+<script>
+  // превью — живые страницы шириной 1440, вписываем их в карточку по её ширине
+  const fit = () => {
+    for (const frame of document.querySelectorAll('.frame')) {
+      frame.style.setProperty('--s', (frame.clientWidth / 1440).toFixed(4));
+    }
+  };
+  fit();
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(fit);
+    document.querySelectorAll('.frame').forEach(f => ro.observe(f));
+  } else {
+    addEventListener('resize', fit);
+  }
+</script>
 </body>
 </html>

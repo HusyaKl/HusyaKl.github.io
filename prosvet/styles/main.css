@@ -1,0 +1,258 @@
+/*
+ * Просвет — конструктор окон. Вёрстка по workspace/design/prosvet.md (ревизия 1.4).
+ * Палитра, типографика, лейаут и signature — решения designer, не переиначены.
+ */
+
+:root {
+  --list: #FFFFFF;       /* Лист */
+  --tush: #000000;       /* Тушь */
+  --karandash: #5A5A5A;  /* Карандаш */
+  --razlinovka: #E4E4E4; /* Разлиновка */
+  --ultra: #14307F;      /* Ультрамарин */
+  --steklo: #EDF1F4;     /* Стекло */
+  --ultra10: #E7EAF3;    /* Ультрамарин 10% */
+  --pad: 40px;
+  --gap: 64px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--list);
+  color: var(--tush);
+  font: 400 16px/1.45 "IBM Plex Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 var(--pad); }
+h1, h2, .total-sum, .wordmark { font-family: "Geologica", "IBM Plex Sans", sans-serif; }
+.num { font-variant-numeric: tabular-nums; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 20;
+  background: var(--ultra); color: var(--list); padding: 10px 16px;
+}
+.skip-link:focus { left: 8px; top: 8px; }
+
+/* ── шапка ───────────────────────────────────── */
+.head { border-bottom: 1px solid var(--tush); }
+.head .wrap { height: 56px; display: flex; align-items: center; gap: 12px; }
+.wordmark { font-weight: 500; font-size: 20px; letter-spacing: .01em; }
+.rule { width: 1px; height: 14px; background: var(--tush); display: inline-block; }
+.head .sub { font-size: 13px; color: var(--karandash); }
+.head a { margin-left: auto; font-size: 15px; color: var(--ultra); text-decoration: none; border-bottom: 1px solid var(--ultra); }
+.head a:focus-visible { outline: 2px solid var(--ultra); outline-offset: 3px; }
+
+/* ── заголовок ───────────────────────────────── */
+.intro { padding-top: 36px; padding-bottom: 28px; }
+h1 { font-weight: 600; font-size: clamp(34px, 3.6vw, 52px); line-height: 1.0; letter-spacing: -.03em; margin: 0 0 16px; max-width: 23ch; }
+.lead { font-size: 19px; line-height: 1.5; max-width: 62ch; margin: 0; color: var(--tush); }
+
+/* ── конструктор ─────────────────────────────── */
+.build { display: grid; grid-template-columns: minmax(0, 1fr) 380px; border-top: 1px solid var(--tush); border-bottom: 1px solid var(--tush); }
+.sheet-col { padding: 24px 32px 24px 0; }
+.sheet { position: relative; border: 1px solid var(--tush); min-height: 56vh; background: var(--list); }
+.sheet svg { display: block; width: 100%; height: 100%; position: absolute; inset: 0; }
+.scale { position: absolute; right: 10px; bottom: 8px; font-size: 13px; color: var(--karandash); font-variant-numeric: tabular-nums; background: var(--list); padding: 0 4px; }
+.hint { margin: 10px 0 0; font-size: 13px; color: var(--karandash); }
+.hint.is-warn { color: var(--tush); font-weight: 600; }
+
+/* поля размеров прямо на чертеже — signature */
+.dim { position: absolute; display: flex; align-items: baseline; gap: 4px; background: var(--list); padding: 0 6px; white-space: nowrap; }
+.dim input {
+  font: 500 16px/1.4 "IBM Plex Sans", sans-serif; font-variant-numeric: tabular-nums;
+  width: 48px; text-align: right; border: 0; border-bottom: 1px dotted var(--karandash);
+  background: transparent; color: var(--tush); padding: 1px 0; border-radius: 0;
+}
+.dim input:focus { outline: none; color: var(--ultra); border-bottom-color: transparent; }
+.dim .mm { font-size: 13px; color: var(--karandash); }
+.dim.is-focus input { color: var(--ultra); border-bottom-color: transparent; outline: 2px solid var(--ultra); outline-offset: 2px; }
+.sheet[data-focus="w"] .g-dim-w line, .sheet[data-focus="w"] .g-dim-w path { stroke: var(--ultra); fill: var(--ultra); }
+.sheet[data-focus="h"] .g-dim-h line, .sheet[data-focus="h"] .g-dim-h path { stroke: var(--ultra); fill: var(--ultra); }
+
+/* ── панель комплектации ─────────────────────── */
+.panel { border-left: 1px solid var(--tush); padding: 24px 0 24px 32px; }
+.group { padding: 0 0 16px; margin: 0 0 16px; border-bottom: 1px solid var(--razlinovka); }
+.group:last-child { border-bottom: 0; margin-bottom: 0; }
+.group h3 { font: 600 17px/1.3 "IBM Plex Sans", sans-serif; margin: 0 0 10px; }
+.sash-label { font-size: 13px; color: var(--karandash); margin: 12px 0 6px; }
+.sash-label:first-of-type { margin-top: 0; }
+.opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.opt {
+  font: 500 15px/1 "IBM Plex Sans", sans-serif;
+  border: 1px solid var(--tush); background: var(--list); color: var(--tush);
+  padding: 9px 12px; border-radius: 2px; cursor: pointer;
+}
+.opt:hover { background: var(--steklo); }
+.opt[aria-pressed="true"] { background: var(--ultra); border-color: var(--ultra); color: var(--list); }
+.opt:focus-visible { outline: 2px solid var(--ultra); outline-offset: 2px; }
+.opt[aria-pressed="true"]:focus-visible { outline-color: var(--tush); }
+
+/* подсветка створки, на чью панель наведён фокус/курсор — связь панели и чертежа */
+.sash-block.is-active .sash-label { color: var(--ultra); }
+#draw .sash.is-active .glass { fill: var(--ultra10); }
+
+/* прочерчивание размерных линий один раз при загрузке (signature); в JS отключается
+   при prefers-reduced-motion — тогда классы .dim-anim* не выставляются вовсе */
+.dim-anim-line { transition: stroke-dashoffset .5s ease; }
+.dim-anim-arrow { transition: opacity .5s ease; }
+
+/* ── спецификация ────────────────────────────── */
+.spec { padding-top: var(--gap); }
+h2 { font-weight: 600; font-size: 27px; letter-spacing: -.02em; margin: 0 0 16px; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+th { font: 500 13px/1.3 "IBM Plex Sans", sans-serif; color: var(--karandash); text-align: left; padding: 0 0 8px; font-weight: 500; }
+th:last-child, td:last-child { text-align: right; }
+thead tr { border-bottom: 1px solid var(--tush); }
+td { padding: 12px 0; border-bottom: 1px solid var(--razlinovka); vertical-align: top; }
+.c-pos { width: 56px; color: var(--karandash); font-variant-numeric: tabular-nums; }
+.c-name { width: 40%; font-weight: 500; }
+.c-calc { color: var(--karandash); font-variant-numeric: tabular-nums; }
+.c-sum { width: 150px; font-variant-numeric: tabular-nums; }
+.total { display: flex; align-items: baseline; justify-content: space-between; border-top: 2px solid var(--tush); padding-top: 14px; margin-top: 0; }
+.total .lbl { font-size: 19px; }
+.total-sum { font-weight: 600; font-size: 43px; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.note { font-size: 13px; color: var(--karandash); margin: 0; }
+.note-total { margin-top: 12px; }
+
+/* ── угловой штамп листа (бланк) ─────────────── */
+.order {
+  margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--razlinovka);
+  display: grid; grid-template-columns: minmax(0, 1fr) 520px; gap: 40px; align-items: start;
+}
+.order h2 { margin: 0 0 10px; }
+.order .lead-sm { font-size: 15px; line-height: 1.5; max-width: 50ch; margin: 0 0 18px; }
+.tb { border: 1px solid var(--tush); }
+.tb-row { display: grid; grid-template-columns: 1fr 1fr; }
+.tb-row + .tb-row { border-top: 1px solid var(--tush); }
+.tb-row.tb-meta { grid-template-columns: 1.5fr 1fr 1fr .7fr; }
+.cell { padding: 8px 12px 12px; min-height: 74px; }
+.cell + .cell { border-left: 1px solid var(--tush); }
+.cell .k { display: block; font-size: 13px; color: var(--karandash); margin-bottom: 6px; }
+.cell .v { font-size: 15px; }
+.cell input {
+  width: 100%; font: 400 16px/1.3 "IBM Plex Sans", sans-serif; color: var(--tush);
+  background: transparent; border: 0; border-bottom: 1px solid var(--razlinovka); border-radius: 0; padding: 3px 0;
+}
+.cell input:focus { outline: 2px solid var(--ultra); outline-offset: 2px; border-bottom-color: var(--ultra); }
+.cell .err-msg { display: none; font-size: 13px; font-weight: 600; margin: 6px 0 0; }
+.cell.err input { border-bottom: 1px dashed var(--tush); }
+.cell.err .err-msg { display: block; }
+.tb-meta .cell { min-height: 56px; }
+.order-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.order-note { margin-top: 14px; max-width: 50ch; }
+.receipt { display: none; grid-column: 1 / -1; border: 1px solid var(--razlinovka); padding: 16px 18px; margin-top: 4px; }
+.receipt.on { display: block; }
+.receipt h3 { font: 600 15px/1.3 "IBM Plex Sans", sans-serif; margin: 0 0 10px; }
+.receipt pre { margin: 0; font: 400 13px/1.6 "IBM Plex Mono", ui-monospace, monospace; white-space: pre-wrap; font-variant-numeric: tabular-nums; }
+.receipt .minor { margin-top: 12px; display: flex; gap: 14px; align-items: center; }
+.actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.btn {
+  font: 500 15px/1 "IBM Plex Sans", sans-serif; padding: 13px 20px; border-radius: 2px;
+  border: 1px solid var(--tush); background: var(--list); color: var(--tush); cursor: pointer;
+  text-decoration: none; display: inline-block;
+}
+.btn-primary { background: var(--ultra); border-color: var(--ultra); color: var(--list); }
+.btn-primary:active { background: #0E2258; border-color: #0E2258; }
+.btn-off { border-color: var(--razlinovka); color: var(--karandash); cursor: default; }
+.btn:focus-visible { outline: 2px solid var(--ultra); outline-offset: 2px; }
+.minor { display: flex; align-items: center; gap: 12px; margin-left: 12px; }
+.lnk {
+  font: 400 15px/1 "IBM Plex Sans", sans-serif; background: none; border: 0; padding: 0;
+  color: var(--tush); cursor: pointer; border-bottom: 1px solid var(--razlinovka);
+}
+.lnk:hover { border-bottom-color: var(--tush); }
+.lnk:focus-visible { outline: 2px solid var(--ultra); outline-offset: 3px; }
+
+/* ── что вы получаете ────────────────────────── */
+.promise { padding-top: var(--gap); padding-bottom: var(--gap); }
+.promise ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 40px; max-width: 900px; }
+.promise li { padding-top: 12px; border-top: 1px solid var(--razlinovka); }
+
+/* ── подвал ──────────────────────────────────── */
+footer { border-top: 1px solid var(--tush); margin-top: 0; }
+footer .wrap { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 32px; padding-top: 28px; padding-bottom: 36px; font-size: 15px; }
+footer .wordmark { color: var(--tush); font-size: 18px; }
+footer p { margin: 0 0 6px; }
+footer .f-line { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+footer .f-h { font-size: 13px; color: var(--karandash); margin-bottom: 8px; }
+
+/* ── липкая полоса итога ─────────────────────── */
+.sticky { display: none; }
+.w-narrow { display: none; }
+
+@media (max-width: 900px) {
+  .w-wide { display: none; }
+  .w-narrow { display: inline; }
+  .order { grid-template-columns: 1fr; gap: 24px; }
+  :root { --pad: 24px; --gap: 40px; }
+  .build { grid-template-columns: 1fr; }
+  .sheet-col { padding: 20px 0; }
+  .sheet { min-height: 42vh; }
+  .panel { border-left: 0; border-top: 1px solid var(--razlinovka); padding: 20px 0 24px; }
+  .promise ul { grid-template-columns: 1fr; }
+  body { padding-bottom: 88px; }
+  .sticky {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; height: 64px; align-items: center;
+    background: var(--list); border-top: 1px solid var(--tush); padding: 0 var(--pad); gap: 16px; z-index: 5;
+  }
+  .sticky .lbl { font-size: 13px; color: var(--karandash); }
+  .sticky .sum { font-family: "Geologica", sans-serif; font-weight: 600; font-size: 24px; font-variant-numeric: tabular-nums; }
+  .sticky .btn { margin-left: auto; }
+  .total-sum { font-size: 34px; }
+}
+
+@media (min-width: 561px) and (max-width: 900px) {
+  /* планшет: панель в две колонки, «Открывание» — правая колонка целиком */
+  .panel { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; align-items: start; }
+  .g-sash { grid-column: 1; grid-row: 1; }
+  .g-open { grid-column: 2; grid-row: 1 / span 3; border-bottom: 0; border-left: 1px solid var(--razlinovka); padding-left: 32px; }
+  .g-prof { grid-column: 1; grid-row: 2; }
+  .g-glass { grid-column: 1; grid-row: 3; border-bottom: 0; }
+}
+
+@media (max-width: 560px) {
+  :root { --pad: 16px; --gap: 28px; }
+  .intro { padding-top: 28px; padding-bottom: 24px; }
+  .sheet { min-height: 40vh; height: 300px; }
+  .dim input { width: 56px; font-size: 16px; padding: 10px 0; }
+  .dim { padding: 0 4px; }
+  .opt { padding: 13px 12px; min-height: 44px; }
+  table, thead, tbody, tr, td { display: block; width: auto; }
+  thead { display: none; }
+  .spec tr { border-bottom: 1px solid var(--razlinovka); padding: 12px 0; }
+  .spec td { border: 0; padding: 0; }
+  .c-pos { display: none !important; }
+  .c-name { width: auto; }
+  .c-calc, .c-sum { display: inline-block; width: auto; text-align: left; }
+  .c-sum { float: right; font-weight: 500; }
+  footer .wrap { grid-template-columns: 1fr; gap: 22px; padding-top: 24px; padding-bottom: 28px; }
+  .order { margin-top: 22px; }
+  .order-actions { display: block; }
+  .order-actions .btn { display: block; width: 100%; text-align: center; margin-bottom: 8px; padding: 15px 20px; }
+  .order-actions .btn-off { text-align: center; }
+  .tb-row { grid-template-columns: 1fr; }
+  .tb-row .cell + .cell { border-left: 0; border-top: 1px solid var(--tush); }
+  .tb-row.tb-meta { grid-template-columns: 1fr 1fr; }
+  .tb-row.tb-meta .cell:nth-child(2), .tb-row.tb-meta .cell:nth-child(4) { border-left: 1px solid var(--tush); }
+  .tb-row.tb-meta .cell:nth-child(2) { border-top: 0; }
+  .minor { margin-left: 0; margin-top: 12px; gap: 14px; }
+  .sticky .btn { padding: 12px 16px; }
+}
+
+@media print {
+  .head, .panel, .sticky, .order-actions, .order-note, .order .lead-sm, .order h2, .receipt, .skip-link { display: none; }
+  .order { grid-template-columns: 1fr; border-top: 0; }
+  /* «всё чёрно-белое, сетка не печатается» (workspace/design/prosvet.md, «СОСТОЯНИЯ»):
+     сетка чертежа — измерительный инструмент экрана, на бумаге лишняя; единственный
+     цветной элемент чертежа — стрелки открывания (Ультрамарин) — печатаются чёрным. */
+  #draw .grid { display: none; }
+  #draw .arrow-open line { stroke: #000000 !important; }
+}
+

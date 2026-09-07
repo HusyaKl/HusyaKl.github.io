@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Просвет — конструктор окон: чертёж и смета по вашим размерам</title>
+<meta name="description" content="Соберите окно по своим меркам: живой чертёж с честным масштабом и смета с разбивкой по позициям. Демонстрационная страница портфолио, цены — пример расчёта.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;600&family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<a class="skip-link" href="#build">Перейти к конструктору</a>
+
+<header class="head">
+  <div class="wrap">
+    <span class="wordmark">Просвет</span>
+    <span class="rule" aria-hidden="true"></span>
+    <span class="sub">окна по вашим меркам</span>
+    <a href="#spec">к смете</a>
+  </div>
+</header>
+
+<main id="build">
+  <section class="intro wrap">
+    <h1>Окно по вашим меркам — с чертежом и сметой</h1>
+    <p class="lead">Наберите ширину и высоту прямо на чертеже. Створки и комплектацию выберите
+      <span class="w-wide">справа</span><span class="w-narrow">ниже</span>. Смета пересчитывается на каждое изменение.</p>
+  </section>
+
+  <section class="build wrap" aria-label="Конструктор окна">
+    <div class="sheet-col">
+      <div class="sheet" id="sheet">
+        <svg id="draw" role="img" aria-label="Чертёж окна"></svg>
+        <span class="dim dim-w" id="dimW">
+          <label class="visually-hidden" for="inW">Ширина проёма, мм</label>
+          <input id="inW" value="2000" aria-label="Ширина проёма, мм" inputmode="numeric" autocomplete="off">
+          <span class="mm">мм</span>
+        </span>
+        <span class="dim dim-h" id="dimH">
+          <label class="visually-hidden" for="inH">Высота проёма, мм</label>
+          <input id="inH" value="1400" aria-label="Высота проёма, мм" inputmode="numeric" autocomplete="off">
+          <span class="mm">мм</span>
+        </span>
+        <span class="scale num" id="scale">М 1:12</span>
+      </div>
+      <p class="hint" id="hint">Ширина проёма — от 400 до 3000 мм, высота — от 400 до 2500 мм.</p>
+    </div>
+
+    <aside class="panel">
+      <div class="group g-sash">
+        <h3>Створки</h3>
+        <div class="opts" id="optsN" role="group" aria-label="Количество створок">
+          <button type="button" class="opt" data-value="1" aria-pressed="false">1</button>
+          <button type="button" class="opt" data-value="2" aria-pressed="true">2</button>
+          <button type="button" class="opt" data-value="3" aria-pressed="false">3</button>
+        </div>
+      </div>
+
+      <div class="group g-open" id="openGroup">
+        <h3>Открывание</h3>
+      </div>
+
+      <div class="group g-prof">
+        <h3>Профиль</h3>
+        <div class="opts" id="optsProfile" role="group" aria-label="Профиль">
+          <button type="button" class="opt" data-value="3" aria-pressed="false">3 камеры</button>
+          <button type="button" class="opt" data-value="5" aria-pressed="true">5 камер</button>
+          <button type="button" class="opt" data-value="7" aria-pressed="false">7 камер</button>
+        </div>
+      </div>
+
+      <div class="group g-glass">
+        <h3>Стеклопакет</h3>
+        <div class="opts" id="optsGlass" role="group" aria-label="Стеклопакет">
+          <button type="button" class="opt" data-value="single" aria-pressed="false">Однокамерный</button>
+          <button type="button" class="opt" data-value="double" aria-pressed="true">Двухкамерный</button>
+          <button type="button" class="opt" data-value="energy" aria-pressed="false">Энергосберегающий</button>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="spec wrap" id="spec">
+    <h2>Спецификация</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="c-pos">Поз.</th>
+          <th class="c-name">Наименование</th>
+          <th class="c-calc">Расчёт</th>
+          <th class="c-sum">Сумма, ₽</th>
+        </tr>
+      </thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <div class="total">
+      <span class="lbl">Итого</span>
+      <span class="total-sum num" id="totalSum">0 ₽</span>
+    </div>
+    <p class="note note-total">Пример расчёта, не оферта: цены в таблице демонстрационные.</p>
+
+    <div class="order" id="order">
+      <div class="order-text">
+        <h2>Заберите расчёт</h2>
+        <p class="lead-sm">Это витрина: сервера у страницы нет, и она ничего никуда не отправляет.
+          Впишите себя в штамп листа — кнопка проверит поля и соберёт текст расчёта здесь же, в браузере.
+          Дальше он ваш: печать или буфер обмена.</p>
+        <div class="order-actions">
+          <button type="button" class="btn btn-primary" id="collect">Собрать лист</button>
+          <span class="btn btn-off" aria-disabled="true">Telegram</span>
+          <span class="minor">
+            <button type="button" class="lnk" id="printBtn">Печать листа</button>
+            <span class="rule" aria-hidden="true"></span>
+            <button type="button" class="lnk" id="copyCalcBtn">Скопировать расчёт</button>
+          </span>
+        </div>
+        <p class="note order-note">Telegram в витрине не подключён, кнопка не работает. Контакты компании в подвале показаны частично.</p>
+      </div>
+
+      <form class="tb" id="tb" novalidate>
+        <div class="tb-row">
+          <div class="cell" id="cellName">
+            <label class="k" for="fName">Заказчик</label>
+            <input id="fName" name="name" autocomplete="name">
+            <p class="err-msg">Впишите имя — оно попадёт в штамп листа</p>
+          </div>
+          <div class="cell" id="cellLink">
+            <label class="k" for="fLink">Связь</label>
+            <input id="fLink" name="link" autocomplete="off">
+            <p class="err-msg">Телефон или почта — попадут в текст расчёта</p>
+          </div>
+        </div>
+        <div class="tb-row tb-meta">
+          <div class="cell"><span class="k">Объект</span><span class="v num" id="tbObject">Окно 2000×1400</span></div>
+          <div class="cell"><span class="k">Масштаб</span><span class="v num" id="tbScale">М 1:12</span></div>
+          <div class="cell"><span class="k">Дата</span><span class="v num" id="tbDate">—</span></div>
+          <div class="cell"><span class="k">Лист</span><span class="v num">1</span></div>
+        </div>
+      </form>
+
+      <div class="receipt" id="receipt">
+        <h3>Лист собран. Ничего не отправлено.</h3>
+        <pre id="receiptText"></pre>
+        <span class="minor"><button type="button" class="lnk" id="copyReceiptBtn">Скопировать текст</button></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="promise wrap" id="promise">
+    <h2>Что вы получаете</h2>
+    <ul>
+      <li>Пропорции чертежа совпадают с вашими размерами</li>
+      <li>Каждая позиция сметы показана вместе с формулой</li>
+      <li>Лист с чертежом и сметой можно распечатать</li>
+      <li>Страница ничего не отправляет и ничего не собирает</li>
+    </ul>
+  </section>
+</main>
+
+<footer id="contacts">
+  <div class="wrap">
+    <div class="f-col f-brand">
+      <p class="f-line"><span class="wordmark">Просвет</span><span class="rule" aria-hidden="true"></span><span>окна по вашим меркам</span></p>
+      <p class="note">Пример расчёта, не оферта: цены демонстрационные.</p>
+    </div>
+    <div class="f-col">
+      <p class="f-h">Где работаем</p>
+      <p>Москва</p>
+      <p class="note">Адрес и часы работы — уточняются</p>
+    </div>
+    <div class="f-col">
+      <p class="f-h">Связь</p>
+      <p class="num">+7 910 ***-**-99</p>
+      <p>a***@gmail.com</p>
+      <p class="note">Контакты скрыты: это демонстрационная страница портфолио, а не рабочий сайт компании.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <span class="lbl">Итого</span>
+  <span class="sum num" id="stickySum">0 ₽</span>
+  <a class="btn btn-primary" href="#order">Забрать расчёт</a>
+</div>
+
+<script src="data/pricing.js"></script>
+<script src="scripts/main.js"></script>
+</body>
+</html>
