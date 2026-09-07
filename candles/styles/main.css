@@ -257,13 +257,6 @@ body.grain::after {
             mask-image: url("../assets/hero-mask.svg");
   }
   .hero__glow { right: -4vw; left: auto; top: -60px; width: 80vw; height: 760px; aspect-ratio: auto; }
-
-  /* рев. 8: вертикальный ритм секций — 72px от видимого края предыдущего блока
-     (было разнобойно: 144 / 48 / 120). .lines уже 72px без media (см. ниже, там же
-     56/40px на более узких экранах) — здесь поднимаются только .showcase и .steps,
-     у которых было 48px на всех ширинах. */
-  .showcase { padding-top: 72px; }
-  .steps    { padding-top: 72px; }
 }
 
 /* ---------- Секция линеек: плитки (рев. 7, вариант B) ----------
@@ -363,6 +356,11 @@ body.grain::after {
   position: relative;
   max-width: var(--content); margin: 0 auto; padding: 48px var(--pad) 0;
 }
+/* рев. 8: ритм секций на десктопе — 72px (было 48 на всех ширинах, разнобой
+   144/48/120 на живом сайте); override должен идти ПОСЛЕ базового правила —
+   при равной специфичности порядок в файле, а не место медиазапроса, решает
+   каскад (этим и объясняется, почему первая попытка этой правки не сработала). */
+@media (min-width: 800px) { .showcase { padding-top: 72px; } }
 .showcase::before {
   content: ""; position: absolute; inset: 0 var(--pad); z-index: -1; pointer-events: none;
   background: radial-gradient(120% 60% at 50% -10%,
@@ -439,6 +437,10 @@ body.grain::after {
 @media (min-width: 1000px) {
   .grid { grid-template-columns: repeat(3, 1fr); gap: 30px; }
 }
+/* рев. 8: ритм «последняя карточка → Как заказать» считается от последней карточки
+   (видимого края), а не от конца .grid — на ≥800px .steps сам даёт 72px сверху,
+   поэтому свой запас .grid здесь убирается, иначе выходит 48+72=120 вместо 72. */
+@media (min-width: 800px) { .grid { padding-bottom: 0; } }
 
 /* ---------- Карточка товара: бумажный отпечаток (рев. 5) ---------- */
 
@@ -541,6 +543,7 @@ body.grain::after {
 /* ---------- Шаги ---------- */
 
 .steps { max-width: var(--content); margin: 0 auto; padding: 48px var(--pad); }
+@media (min-width: 800px) { .steps { padding-top: 72px; } }
 .steps h2 { font-family: var(--font-display); font-weight: 300; font-size: 25px; margin-bottom: 24px; }
 /* D-Д2: заголовок секции — 32px по шкале на десктопе, было 25px на всех ширинах. */
 @media (min-width: 800px) { .steps h2 { font-size: 32px; } }
