@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проекты — design your live</title>
+<meta name="description" content="Пять комнат, снятых до и после из одной точки. Фильтры по помещению и метражу.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Tenor+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<header>
+  <div class="wrap head">
+    <a class="mark" href="index.html">design your live<span>дизайн интерьера</span></a>
+    <nav class="primary" aria-label="Основная">
+      <a href="projects.html" aria-current="page">проекты</a>
+      <a href="services.html">услуги</a>
+      <a href="about.html">о дизайнере</a>
+    </nav>
+    <button type="button" class="btn" data-chat-open>Написать дизайнеру</button>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <h1 class="page">Проекты</h1>
+  <p class="lead">Пять комнат, снятых до и после из одной точки. Ползунок в каждой карточке — тот же, что на главной.</p>
+
+  <div class="filters">
+    <div>
+      <span class="fl-label" id="flKindLabel">Помещение</span>
+      <div class="toggles" role="group" aria-labelledby="flKindLabel">
+        <button type="button" class="tg" data-kind="комната" aria-pressed="false">комната</button>
+        <button type="button" class="tg" data-kind="кухня" aria-pressed="false">кухня</button>
+      </div>
+    </div>
+    <div>
+      <span class="fl-label" id="flSizeLabel">Метраж</span>
+      <div class="ruler" data-ruler data-tick-minor="2" data-tick-major="6">
+        <div class="ticks" aria-hidden="true"></div>
+        <div class="track" aria-hidden="true"></div>
+        <div class="sel" aria-hidden="true"></div>
+        <input type="range" class="r-min" min="6" max="30" step="1" value="6" aria-labelledby="flSizeLabel" aria-label="Метраж от, м²">
+        <div class="grip grip-min" aria-hidden="true"><i></i><i></i><i></i></div>
+        <input type="range" class="r-max" min="6" max="30" step="1" value="30" aria-labelledby="flSizeLabel" aria-label="Метраж до, м²">
+        <div class="grip grip-max" aria-hidden="true"><i></i><i></i><i></i></div>
+      </div>
+    </div>
+    <div class="value">от <b data-val-min>6</b> до <b data-val-max>30 м²</b><span>шаг 1 м²</span></div>
+  </div>
+
+  <div class="count">
+    <p data-count>Показано 5 из 5</p>
+    <p>Фотографии реальные, метраж указан условно</p>
+    <button type="button" class="reset" data-reset hidden>Сбросить фильтры</button>
+  </div>
+
+  <div class="grid" data-grid>
+    <article class="card" data-kind="комната" data-size="18">
+      <figure data-compare="g1">
+        <div class="frame frame--card">
+          <img draggable="false" src="assets/img/g1-posle.jpg" alt="Гостиная после ремонта: угловой диван, джутовый ковёр, зеркало в арочной раме">
+          <img draggable="false" class="before" src="assets/img/g1-do.jpg" alt="Та же гостиная до ремонта: голые стены и ковролин">
+          <input type="range" class="range" min="0" max="100" step="1" value="54" aria-label="Гостиная с зеркалом: сравнение до и после">
+          <div class="seam" aria-hidden="true"></div>
+          <div class="handle" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+      </figure>
+      <h2>Гостиная с зеркалом</h2>
+      <p class="meta">18 м²</p>
+      <p class="kind">комната · пара кадров, ползунок</p>
+    </article>
+
+    <article class="card" data-kind="комната" data-size="21">
+      <figure data-compare="g2">
+        <div class="frame frame--card">
+          <img draggable="false" src="assets/img/g2-posle.jpg" alt="Светлая гостиная с оливковыми стенами и терракотовым креслом после ремонта">
+          <img draggable="false" class="before" src="assets/img/g2-do.jpg" alt="Та же комната до ремонта">
+          <input type="range" class="range" min="0" max="100" step="1" value="54" aria-label="Гостиная в панельном доме: сравнение до и после">
+          <div class="seam" aria-hidden="true"></div>
+          <div class="handle" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+      </figure>
+      <h2>Гостиная в панельном доме</h2>
+      <p class="meta">21 м²</p>
+      <p class="kind">комната · пара кадров, ползунок</p>
+    </article>
+
+    <article class="card" data-kind="комната" data-size="16">
+      <figure data-compare="g3">
+        <div class="frame frame--card">
+          <img draggable="false" src="assets/img/g3-posle.jpg" alt="Гостиная с диваном и деревянными стеллажами после ремонта">
+          <img draggable="false" class="before" src="assets/img/g3-do.jpg" alt="Та же комната до ремонта">
+          <input type="range" class="range" min="0" max="100" step="1" value="54" aria-label="Комната для семьи: сравнение до и после">
+          <div class="seam" aria-hidden="true"></div>
+          <div class="handle" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+      </figure>
+      <h2>Комната для семьи</h2>
+      <p class="meta">16 м²</p>
+      <p class="kind">комната · пара кадров, ползунок</p>
+    </article>
+
+    <article class="card" data-kind="комната" data-size="24" id="gostinaya-4">
+      <figure data-compare="g4">
+        <div class="frame frame--card">
+          <img draggable="false" src="assets/img/g4-posle.jpg" alt="Гостиная с изумрудным диваном, рейками на стене и латунным столиком после ремонта">
+          <img draggable="false" class="before" src="assets/img/g4-do.jpg" alt="Та же комната до ремонта">
+          <input type="range" class="range" min="0" max="100" step="1" value="54" aria-label="Гостиная с рейками: сравнение до и после">
+          <div class="seam" aria-hidden="true"></div>
+          <div class="handle" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+      </figure>
+      <h2>Гостиная с рейками</h2>
+      <p class="meta">24 м²</p>
+      <p class="kind">комната · пара кадров, ползунок</p>
+    </article>
+
+    <article class="card" data-kind="кухня" data-size="9">
+      <div class="single">
+        <img src="assets/img/kitchen-posle.jpg" alt="Кухня после ремонта: зелёные фасады, светлая столешница, обеденный стол у окна">
+      </div>
+      <h2>Кухня в двушке</h2>
+      <p class="meta">9 м²</p>
+      <p class="kind">кухня · пара кадров в подготовке</p>
+    </article>
+  </div>
+
+  <div class="empty" data-empty hidden>
+    <p>Под эти условия ничего не подошло: кухня у нас пока одна, и она 9 м². Раздвиньте линейку метража или напишите — подберём похожий проект.</p>
+    <button type="button" class="btn" data-chat-open>Написать дизайнеру</button>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p><span class="wordmark mark">design your live</span></p>
+      <p class="note">дизайн интерьера квартир и дач</p>
+      <p class="note">Демонстрационная страница портфолио, а не рабочий сайт студии.</p>
+    </div>
+    <div>
+      <p class="f-h">Где работаем</p>
+      <p>Москва и область</p>
+      <p class="note">Выезд на замер и авторский надзор — по договорённости.</p>
+    </div>
+    <div>
+      <p class="f-h">Связь</p>
+      <p>Telegram <a href="https://t.me/anastaishaKL" rel="noopener">@anastaishaKL</a></p>
+      <p class="note">Телефон и почта на этой странице не публикуются. Реквизиты юрлица — по запросу заказчика, на демонстрационной странице не публикуются.</p>
+    </div>
+  </div>
+</footer>
+
+<button type="button" class="hail" data-hail data-chat-open aria-haspopup="dialog">Написать дизайнеру</button>
+
+<aside class="chat" data-chat role="dialog" aria-label="Разговор с дизайнером" hidden>
+  <div class="chat-head">
+    <h2>Разговор с дизайнером</h2>
+    <p>Анна Ковалёва, Design your live</p>
+    <button type="button" class="chat-x" data-chat-close aria-label="Закрыть окно"></button>
+  </div>
+  <div class="thread" data-thread>
+    <p class="msg them">Здравствуйте! Расскажите, что за комната, какой метраж и что в ней мешает жить. Можно прислать фотографию — так понятнее.</p>
+    <p class="sys">разговор идёт в Telegram</p>
+  </div>
+  <div class="chips">
+    <button type="button" class="chip" data-chip>Комната</button>
+    <button type="button" class="chip" data-chip>Кухня</button>
+    <button type="button" class="chip" data-chip>Не знаю, с чего начать</button>
+  </div>
+  <div class="chat-foot">
+    <div class="field">
+      <label class="visually-hidden" for="chatField">Опишите задачу</label>
+      <textarea id="chatField" data-field rows="1" placeholder="Опишите задачу"></textarea>
+      <button type="button" data-send>Открыть Telegram</button>
+    </div>
+    <p class="disclaimer">Кнопка откроет Telegram <b>@anastaishaKL</b> с этим текстом. Отправите его сами, из своего аккаунта — на сайте сообщение не сохраняется и никуда не уходит.</p>
+  </div>
+</aside>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design your live — дизайн интерьера: комната та же, живётся иначе</title>
+<meta name="description" content="Дизайн интерьера квартир. Одна и та же гостиная до и после ремонта — потяните ползунок и сравните сами. Демонстрационная страница портфолио.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Tenor+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<header>
+  <div class="wrap head">
+    <a class="mark" href="index.html">design your live<span>дизайн интерьера</span></a>
+    <nav class="primary" aria-label="Основная">
+      <a href="projects.html">проекты</a>
+      <a href="services.html">услуги</a>
+      <a href="about.html">о дизайнере</a>
+    </nav>
+    <button type="button" class="btn" data-chat-open>Написать дизайнеру</button>
+  </div>
+</header>
+
+<main class="wrap home" id="main">
+  <div class="top">
+    <h1 class="hero-h">Комната та же.<br>Живётся иначе.</h1>
+    <div class="lead">
+      <p>Design your live — дизайн интерьера квартир. Слева и справа одна и та же гостиная: до ремонта и после. Точка съёмки не менялась — потяните ползунок и сравните сами.</p>
+      <div class="acts">
+        <button type="button" class="btn" data-chat-open data-hero-cta>Написать дизайнеру</button>
+        <a class="txt" href="projects.html">Смотреть проекты</a>
+      </div>
+    </div>
+  </div>
+
+  <figure class="hero-compare" data-compare="hero">
+    <div class="block">
+      <div class="frame frame--hero">
+        <picture>
+          <source media="(max-width:600px)" srcset="assets/img/g1-posle-m.jpg">
+          <img draggable="false" src="assets/img/g1-posle.jpg" alt="Гостиная после ремонта: угловой диван, джутовый ковёр, зеркало в арочной раме, комод под телевизор">
+        </picture>
+        <picture>
+          <source media="(max-width:600px)" srcset="assets/img/g1-do-m.jpg">
+          <img draggable="false" class="before" src="assets/img/g1-do.jpg" alt="Та же гостиная до ремонта: голые стены, ковролин, диван и низкий столик">
+        </picture>
+        <input type="range" class="range" min="0" max="100" step="1" value="54" aria-label="Сравнение до и после">
+        <div class="handle" aria-hidden="true"><i></i><i></i><i></i></div>
+      </div>
+      <div class="labels" aria-hidden="true"><span>было</span><span>стало</span></div>
+      <div class="seam" aria-hidden="true"></div>
+    </div>
+    <figcaption class="capmeta">
+      <span class="obj">Гостиная, <b>18 м²</b></span>
+      <span class="note">Фотографии реальные, метраж указан условно.</span>
+    </figcaption>
+  </figure>
+
+  <section class="podbor" id="podbor">
+    <div>
+
+      <!-- ── БЛОК 1: 3D-макет ─────────────────────────── -->
+      <h2 class="h2">Комната, которой ещё нет</h2>
+      <p class="sub">К каждому проекту прилагается 3D-макет. Планировку, свет и цвета видно
+        до того, как куплены материалы — а не после.</p>
+
+      <div class="room" id="room">
+        <canvas id="scene" aria-label="Интерактивный 3D-макет гостиной. Потяните, чтобы осмотреться."></canvas>
+        <div class="draft" id="draft">
+          <svg class="plan plan--wide" viewBox="0 0 924 578" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="План комнаты: 4,6 на 5,2 метра, 24 квадратных метра, потолок 2,7 метра">
+            <!-- стены -->
+            <rect x="120" y="70" width="405" height="458" fill="none" stroke="#1E221C" stroke-width="1.6"/>
+            <!-- окно на дальней стене -->
+            <g stroke="#1E221C" stroke-width="1.4">
+              <line x1="196" y1="70" x2="336" y2="70"/>
+              <line x1="196" y1="63" x2="336" y2="63"/>
+            </g>
+            <!-- дверной проём справа: разрыв стены и створка -->
+            <line x1="525" y1="100" x2="525" y2="182" stroke="#EFF1EC" stroke-width="5"/>
+            <g fill="none" stroke="#1E221C" stroke-width="1">
+              <path d="M525 182 a82 82 0 0 0 -82 -82"/>
+              <line x1="525" y1="100" x2="443" y2="100"/>
+            </g>
+            <!-- рейки на дальней стене -->
+            <g stroke="#5C6259" stroke-width="1" opacity=".6">
+              <line x1="132" y1="70" x2="132" y2="80"/><line x1="140" y1="70" x2="140" y2="80"/>
+              <line x1="148" y1="70" x2="148" y2="80"/><line x1="156" y1="70" x2="156" y2="80"/>
+              <line x1="164" y1="70" x2="164" y2="80"/><line x1="172" y1="70" x2="172" y2="80"/>
+              <line x1="180" y1="70" x2="180" y2="80"/>
+            </g>
+            <!-- зеркало на левой стене -->
+            <line x1="120" y1="104" x2="120" y2="158" stroke="#1E221C" stroke-width="4"/>
+            <!-- диван -->
+            <g fill="none" stroke="#1E221C" stroke-width="1.1">
+              <rect x="128" y="186" width="62" height="212"/>
+              <line x1="142" y1="186" x2="142" y2="398"/>
+            </g>
+            <!-- ковёр -->
+            <rect x="212" y="204" width="218" height="246" fill="none" stroke="#5C6259" stroke-width="1" stroke-dasharray="5 4"/>
+            <!-- стол -->
+            <circle cx="321" cy="327" r="42" fill="none" stroke="#1E221C" stroke-width="1.1"/>
+            <!-- растения -->
+            <circle cx="470" cy="330" r="25" fill="none" stroke="#1E221C" stroke-width="1.1"/>
+            <circle cx="478" cy="394" r="17" fill="none" stroke="#1E221C" stroke-width="1.1"/>
+            <!-- светильник над столом -->
+            <g stroke="#5C6259" stroke-width="1" opacity=".7">
+              <line x1="303" y1="309" x2="339" y2="345"/><line x1="339" y1="309" x2="303" y2="345"/>
+            </g>
+            <!-- размер по ширине -->
+            <g stroke="#5C6259" stroke-width="1">
+              <line x1="120" y1="38" x2="525" y2="38"/>
+              <line x1="120" y1="31" x2="120" y2="45"/><line x1="525" y1="31" x2="525" y2="45"/>
+            </g>
+            <rect x="288" y="26" width="70" height="24" fill="#EFF1EC"/>
+            <text x="323" y="45" class="dim" text-anchor="middle">4,6 м</text>
+            <!-- размер по глубине -->
+            <g stroke="#5C6259" stroke-width="1">
+              <line x1="78" y1="70" x2="78" y2="528"/>
+              <line x1="71" y1="70" x2="85" y2="70"/><line x1="71" y1="528" x2="85" y2="528"/>
+            </g>
+            <rect x="44" y="287" width="70" height="24" fill="#EFF1EC"/>
+            <text x="79" y="306" class="dim" text-anchor="middle">5,2 м</text>
+            <!-- штамп -->
+            <g stroke="#1E221C" stroke-width="1" fill="none">
+              <rect x="612" y="286" width="292" height="242"/>
+              <line x1="612" y1="330" x2="904" y2="330"/>
+              <line x1="612" y1="382" x2="904" y2="382"/>
+              <line x1="612" y1="434" x2="904" y2="434"/>
+              <line x1="612" y1="486" x2="904" y2="486"/>
+            </g>
+            <text x="628" y="316" class="stmp">Гостиная с рейками, план</text>
+            <text x="628" y="368" class="stmpk">размеры</text>
+            <text x="888" y="368" class="dim" text-anchor="end">4,6 × 5,2 м</text>
+            <text x="628" y="420" class="stmpk">площадь</text>
+            <text x="888" y="420" class="dim" text-anchor="end">24 м²</text>
+            <text x="628" y="472" class="stmpk">потолок</text>
+            <text x="888" y="472" class="dim" text-anchor="end">2,7 м</text>
+            <text x="628" y="512" class="stmpk">схема, не рабочий чертёж</text>
+          </svg>
+          <svg class="plan plan--narrow" viewBox="30 14 566 546" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="План комнаты: 4,6 на 5,2 метра">
+            <!-- стены -->
+            <rect x="120" y="70" width="405" height="458" fill="none" stroke="#1E221C" stroke-width="1.6"/>
+            <!-- окно на дальней стене -->
+            <g stroke="#1E221C" stroke-width="1.4">
+              <line x1="196" y1="70" x2="336" y2="70"/>
+              <line x1="196" y1="63" x2="336" y2="63"/>
+            </g>
+            <!-- дверной проём справа: разрыв стены и створка -->
+            <line x1="525" y1="100" x2="525" y2="182" stroke="#EFF1EC" stroke-width="5"/>
+            <g fill="none" stroke="#1E221C" stroke-width="1">
+              <path d="M525 182 a82 82 0 0 0 -82 -82"/>
+              <line x1="525" y1="100" x2="443" y2="100"/>
+            </g>
+            <!-- рейки на дальней стене -->
+            <g stroke="#5C6259" stroke-width="1" opacity=".6">
+              <line x1="132" y1="70" x2="132" y2="80"/><line x1="140" y1="70" x2="140" y2="80"/>
+              <line x1="148" y1="70" x2="148" y2="80"/><line x1="156" y1="70" x2="156" y2="80"/>
+              <line x1="164" y1="70" x2="164" y2="80"/><line x1="172" y1="70" x2="172" y2="80"/>
+              <line x1="180" y1="70" x2="180" y2="80"/>
+            </g>
+            <!-- зеркало на левой стене -->
+            <line x1="120" y1="104" x2="120" y2="158" stroke="#1E221C" stroke-width="4"/>
+            <!-- диван -->
+            <g fill="none" stroke="#1E221C" stroke-width="1.1">
+              <rect x="128" y="186" width="62" height="212"/>
+              <line x1="142" y1="186" x2="142" y2="398"/>
+            </g>
+            <!-- ковёр -->
+            <rect x="212" y="204" width="218" height="246" fill="none" stroke="#5C6259" stroke-width="1" stroke-dasharray="5 4"/>
+            <!-- стол -->
+            <circle cx="321" cy="327" r="42" fill="none" stroke="#1E221C" stroke-width="1.1"/>
+            <!-- растения -->
+            <circle cx="470" cy="330" r="25" fill="none" stroke="#1E221C" stroke-width="1.1"/>
+            <circle cx="478" cy="394" r="17" fill="none" stroke="#1E221C" stroke-width="1.1"/>
+            <!-- светильник над столом -->
+            <g stroke="#5C6259" stroke-width="1" opacity=".7">
+              <line x1="303" y1="309" x2="339" y2="345"/><line x1="339" y1="309" x2="303" y2="345"/>
+            </g>
+            <!-- размер по ширине -->
+            <g stroke="#5C6259" stroke-width="1">
+              <line x1="120" y1="38" x2="525" y2="38"/>
+              <line x1="120" y1="31" x2="120" y2="45"/><line x1="525" y1="31" x2="525" y2="45"/>
+            </g>
+            <rect x="288" y="26" width="70" height="24" fill="#EFF1EC"/>
+            <text x="323" y="45" class="dim" text-anchor="middle">4,6 м</text>
+            <!-- размер по глубине -->
+            <g stroke="#5C6259" stroke-width="1">
+              <line x1="78" y1="70" x2="78" y2="528"/>
+              <line x1="71" y1="70" x2="85" y2="70"/><line x1="71" y1="528" x2="85" y2="528"/>
+            </g>
+            <rect x="44" y="287" width="70" height="24" fill="#EFF1EC"/>
+            <text x="79" y="306" class="dim" text-anchor="middle">5,2 м</text>
+            <text x="120" y="551" class="stmpk">гостиная с рейками, 24 м², потолок 2,7 м</text>
+          </svg>
+          <p class="draftnote" id="draftnote">Чертёж этой комнаты. Сейчас она соберётся в объём.</p>
+        </div>
+      </div>
+
+      <div class="bar" style="padding-top:34px">
+        <!-- кнопки палитр стоят в разметке сразу, а не создаются скриптом сцены:
+             иначе в момент подмены чертежа сценой блок подпрыгивает на высоту этой полосы -->
+        <div class="schemes" id="schemes" role="group" aria-label="Цветовые схемы">
+          <button type="button" class="scheme" aria-pressed="true"><span class="dots"><i style="background:#145534"></i><i style="background:#928980"></i><i style="background:#c49255"></i></span>Оригинал</button>
+          <button type="button" class="scheme" aria-pressed="false"><span class="dots"><i style="background:#233d5c"></i><i style="background:#bab3aa"></i><i style="background:#84603f"></i></span>Синий бархат</button>
+          <button type="button" class="scheme" aria-pressed="false"><span class="dots"><i style="background:#b8892e"></i><i style="background:#c8c1b6"></i><i style="background:#c49255"></i></span>Горчица</button>
+          <button type="button" class="scheme" aria-pressed="false"><span class="dots"><i style="background:#a86f6e"></i><i style="background:#d4c8bf"></i><i style="background:#c79c6c"></i></span>Пыльная роза</button>
+        </div>
+      </div>
+      <div class="bar">
+        <div class="toggle" role="group" aria-label="Время суток">
+          <button type="button" class="tbtn" data-mode="day" aria-pressed="true">День</button>
+          <button type="button" class="tbtn" data-mode="evening" aria-pressed="false">Вечер</button>
+        </div>
+        <label class="chk"><input type="checkbox" id="furn" checked> Мебель</label>
+        <label class="chk"><input type="checkbox" id="decor" checked> Декор</label>
+        <button class="reset" id="reset" type="button">Вернуть камеру</button>
+      </div>
+      <p class="hintline" id="hintline">Потяните, чтобы осмотреться. Переключите палитру и вечерний свет.</p>
+
+      <!-- связка макета с парой gostinaya-4, из которой он собран -->
+      <div class="byproj">
+        <img src="assets/img/g4-posle.jpg" alt="Гостиная с рейками после ремонта: изумрудный диван, рейки на стене, латунный столик">
+        <div>
+          <p class="k">по этому проекту</p>
+          <b>Гостиная с рейками, <i>24 м²</i></b>
+          <p>Макет собран по этой комнате: тот же вид от двери к окну, те же рейки у стены,
+            тот же диван. Палитра «Оригинал» — её цвета.</p>
+          <a href="projects.html#gostinaya-4">Смотреть пару кадров</a>
+        </div>
+      </div>
+
+      <div class="chalk"></div>
+
+      <!-- ── БЛОК 2: перекраска фото ──────────────────── -->
+      <h2 class="h2" id="foto">Примерьте цвет на свою стену</h2>
+      <p class="sub">Загрузите фотографию комнаты и перекрасьте стены. Снимок обрабатывается
+        прямо в браузере и никуда не отправляется.</p>
+
+      <div id="app">
+        <div class="drop" id="drop">
+          <p>Загрузите фото своей комнаты</p>
+          <small>Лучше всего подходят кадры с ровной стеной при дневном свете. Фото остаётся на вашем устройстве.</small>
+          <small class="err" id="loadErr"></small>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:8px">
+            <button class="toolbtn primary" type="button" id="pick">Выбрать фото</button>
+            <input id="file" type="file" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
+            <button class="toolbtn link" type="button" id="sample">Попробовать на примере</button>
+          </div>
+        </div>
+
+        <div id="editor" style="display:none">
+          <div class="stage"><canvas id="view" aria-label="Фото комнаты с перекрашенными стенами"></canvas></div>
+          <p class="samplenote" id="samplenote" style="display:none">Пример — кадр «до» из проекта Анны, он же лежит в «Проектах».</p>
+
+          <div class="row">
+            <div class="seg" role="group" aria-label="Инструмент">
+              <button class="toolbtn" type="button" data-tool="fill" aria-pressed="true">Выбрать стену</button>
+              <button class="toolbtn" type="button" data-tool="add" aria-pressed="false">Кисть +</button>
+              <button class="toolbtn" type="button" data-tool="erase" aria-pressed="false">Ластик</button>
+            </div>
+            <label class="toolrange">Чувствительность <input type="range" id="tol" min="15" max="110" value="50" step="1"></label>
+            <label class="toolrange">Кисть <input type="range" id="brush" min="6" max="80" value="28" step="1"></label>
+            <button class="toolbtn link" type="button" id="clear">Сбросить выделение</button>
+          </div>
+
+          <div class="row">
+            <div class="swatches" id="swatches" role="group" aria-label="Цвета стен"></div>
+            <label class="customcolor">Свой цвет <input type="color" id="custom" value="#928980"></label>
+          </div>
+          <p class="picked" id="picked"><i style="background:#928980"></i><span>Тёплый серый</span> <b>#928980</b></p>
+
+          <div class="row">
+            <button class="toolbtn" type="button" id="hold">Показать оригинал (удерживайте)</button>
+            <button class="toolbtn" type="button" id="download">Скачать результат</button>
+            <button class="toolbtn link" type="button" id="another">Другое фото</button>
+          </div>
+          <p class="tool-hint" id="hint">Тапните по стене — она перекрасится в выбранный цвет. Тапайте ещё, чтобы добавить другие стены.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ЛИСТ ПОДБОРА ─────────────────────────────── -->
+    <aside class="sheet-col">
+      <div class="sheet">
+        <h3>Лист подбора</h3>
+        <p class="sheet-sub">Заполняется, пока вы выбираете.</p>
+        <dl>
+          <div class="line"><dt>Палитра макета</dt><span class="fill"></span><dd id="v-scheme">Оригинал</dd></div>
+          <div class="line"><dt>Свет</dt><span class="fill"></span><dd id="v-light">День</dd></div>
+          <div class="line"><dt>Цвет стены</dt><span class="fill"></span><dd id="v-color" class="empty">—</dd></div>
+          <div class="line"><dt>Фото</dt><span class="fill"></span><dd id="v-photo" class="empty">—</dd></div>
+        </dl>
+        <a class="want" id="want" href="https://t.me/anastaishaKL" target="_blank" rel="noopener">Хочу такой</a>
+        <p class="sheet-note">Откроется переписка в Telegram с вашим выбором: палитра макета,
+          свет и цвет стены. Фотография остаётся у вас — если захотите, пришлёте её сами.</p>
+      </div>
+    </aside>
+  </section>
+
+  <section class="more">
+    <h2>Ещё три комнаты — тоже из одной точки</h2>
+    <p class="sub">В каждом проекте лежит своя пара кадров: тот же ползунок, тот же способ проверить.</p>
+    <div class="thumbs">
+      <a href="projects.html">
+        <img src="assets/img/g2-posle.jpg" alt="Светлая гостиная с оливковыми стенами и терракотовым креслом после ремонта">
+        <p>Гостиная в панельном доме <em>21 м²</em></p>
+      </a>
+      <a href="projects.html">
+        <img src="assets/img/g3-posle.jpg" alt="Гостиная с диваном и деревянными стеллажами после ремонта">
+        <p>Комната для семьи <em>16 м²</em></p>
+      </a>
+      <a href="projects.html">
+        <img src="assets/img/g4-posle.jpg" alt="Гостиная с изумрудным диваном, рейками на стене и латунным столиком после ремонта">
+        <p>Гостиная с рейками <em>24 м²</em></p>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p><span class="wordmark mark">design your live</span></p>
+      <p class="note">дизайн интерьера квартир и дач</p>
+      <p class="note">Демонстрационная страница портфолио, а не рабочий сайт студии.</p>
+    </div>
+    <div>
+      <p class="f-h">Где работаем</p>
+      <p>Москва и область</p>
+      <p class="note">Выезд на замер и авторский надзор — по договорённости.</p>
+    </div>
+    <div>
+      <p class="f-h">Связь</p>
+      <p>Telegram <a href="https://t.me/anastaishaKL" rel="noopener">@anastaishaKL</a></p>
+      <p class="note">Телефон и почта на этой странице не публикуются. Реквизиты юрлица — по запросу заказчика, на демонстрационной странице не публикуются.</p>
+    </div>
+  </div>
+</footer>
+
+<button type="button" class="hail" data-hail data-chat-open aria-haspopup="dialog">Написать дизайнеру</button>
+
+<aside class="chat" data-chat role="dialog" aria-label="Разговор с дизайнером" hidden>
+  <div class="chat-head">
+    <h2>Разговор с дизайнером</h2>
+    <p>Анна Ковалёва, Design your live</p>
+    <button type="button" class="chat-x" data-chat-close aria-label="Закрыть окно"></button>
+  </div>
+  <div class="thread" data-thread>
+    <p class="msg them">Здравствуйте! Расскажите, что за комната, какой метраж и что в ней мешает жить. Можно прислать фотографию — так понятнее.</p>
+    <p class="sys">разговор идёт в Telegram</p>
+  </div>
+  <div class="chips">
+    <button type="button" class="chip" data-chip>Комната</button>
+    <button type="button" class="chip" data-chip>Кухня</button>
+    <button type="button" class="chip" data-chip>Не знаю, с чего начать</button>
+  </div>
+  <div class="chat-foot">
+    <div class="field">
+      <label class="visually-hidden" for="chatField">Опишите задачу</label>
+      <textarea id="chatField" data-field rows="1" placeholder="Опишите задачу"></textarea>
+      <button type="button" data-send>Открыть Telegram</button>
+    </div>
+    <p class="disclaimer">Кнопка откроет Telegram <b>@anastaishaKL</b> с этим текстом. Отправите его сами, из своего аккаунта — на сайте сообщение не сохраняется и никуда не уходит.</p>
+  </div>
+</aside>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>
